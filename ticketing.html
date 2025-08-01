@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Engine - Datacenter Operations</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: #f8f7f4;
+            color: #4a4a4a;
+        }
+        .app-grid {
+            display: grid;
+            grid-template-columns: 1fr 420px;
+            gap: 1.5rem;
+            height: calc(100vh - 90px); /* Full height minus header */
+        }
+        .main-pane {
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            padding: 1.5rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        .details-pane {
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .ticket-row, .asset-card {
+            cursor: pointer;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+        .ticket-row:hover, .asset-card:hover {
+            background-color: #f9fafb;
+        }
+        .ticket-row.active, .asset-card.active {
+            background-color: #eaddd7;
+            border-color: #3a5a40;
+        }
+        .details-pane .details-body {
+            font-family: 'Lora', serif;
+        }
+        .view-tab {
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: border-color 0.2s, color 0.2s, background-color 0.2s;
+            font-weight: 700;
+            font-size: 0.9rem;
+            letter-spacing: 0.025em;
+            border-radius: 0.375rem 0.375rem 0 0;
+        }
+        .view-tab.active {
+            border-color: #3a5a40;
+            color: #3a5a40;
+            background-color: #ffffff;
+        }
+        .asset-tab {
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-radius: 0.375rem;
+            font-weight: 700;
+            font-size: 0.8rem;
+            transition: background-color 0.2s, color 0.2s;
+        }
+        .asset-tab.active {
+            background-color: #3a5a40;
+            color: white;
+        }
+        .plan-content {
+            font-family: 'Lora', serif;
+        }
+        .plan-content h2 {
+            font-family: 'Lato', sans-serif;
+            font-weight: 900;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 0.5rem;
+        }
+        .plan-content h3 {
+            font-family: 'Lato', sans-serif;
+            font-weight: 700;
+            font-size: 1.125rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .plan-content ul {
+            list-style-position: inside;
+            list-style-type: disc;
+            padding-left: 1rem;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1024px) {
+            .app-grid {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+            .details-pane {
+                margin-top: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body class="p-4">
+
+    <div class="max-w-screen-2xl mx-auto h-full">
+        <header class="flex flex-col sm:flex-row justify-between items-center mb-4">
+            <div>
+                <h1 class="text-2xl font-bold text-[#3a3a3a]" style="font-family: 'Lato', sans-serif;">Knowledge Engine</h1>
+                <p class="text-sm text-gray-500">Datacenter Facilities Management</p>
+            </div>
+            <div class="flex items-center space-x-6 mt-3 sm:mt-0">
+                <nav class="flex space-x-2">
+                    <a class="view-tab active" data-target="dashboard-view">Asset Dashboard</a>
+                    <a class="view-tab" data-target="incidents-view">Incidents</a>
+                    <a class="view-tab" data-target="new-incident-view">New Incident</a>
+                    <a class="view-tab" data-target="escalation-view">Escalation Matrix</a>
+                    <a class="view-tab" data-target="plan-view">Development Plan</a>
+                    <a class="view-tab" data-target="itil-view">ITIL Reference</a>
+                </nav>
+                <div id="user-profile-button" class="flex items-center space-x-4 cursor-pointer">
+                    <div class="text-right">
+                        <p class="font-bold text-sm">On Duty: Okello</p>
+                        <p class="text-xs text-gray-500">Shift: 08:00 - 20:00</p>
+                    </div>
+                    <div class="w-9 h-9 bg-[#eaddd7] rounded-full flex items-center justify-center font-bold text-[#3a3a3a] text-sm flex-shrink-0">O</div>
+                </div>
+            </div>
+        </header>
+
+        <div class="app-grid">
+            <!-- Main Content Area -->
+            <div class="main-pane">
+                <!-- Incidents View -->
+                <div id="incidents-view" class="hidden flex-col flex-grow">
+                    <div class="flex justify-between items-center mb-4 flex-shrink-0">
+                        <h2 class="text-xl font-black" style="font-family: 'Lato', sans-serif;">Open Incidents</h2>
+                        <input type="text" id="search-input" placeholder="Search incidents..." class="w-1/2 border-gray-300 rounded-md shadow-sm text-sm">
+                    </div>
+                    <div class="overflow-y-auto flex-grow">
+                        <table class="w-full text-sm text-left">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                <tr><th scope="col" class="px-4 py-3">Number</th><th scope="col" class="px-4 py-3">Priority</th><th scope="col" class="px-4 py-3">State</th><th scope="col" class="px-4 py-3">Short description</th><th scope="col" class="px-4 py-3">Assignee</th></tr>
+                            </thead>
+                            <tbody id="ticket-list"></tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Asset Dashboard View -->
+                <div id="dashboard-view" class="flex flex-col flex-grow">
+                     <h2 class="text-xl font-black mb-4" style="font-family: 'Lato', sans-serif;">Grey Space Asset Status</h2>
+                     <div class="border-b border-gray-200 mb-4 flex-shrink-0">
+                        <nav class="-mb-px flex space-x-2 overflow-x-auto text-sm">
+                            <a class="asset-tab active" data-asset="power">Power</a>
+                            <a class="asset-tab" data-asset="cooling">Cooling</a>
+                            <a class="asset-tab" data-asset="batteries">Batteries</a>
+                            <a class="asset-tab" data-asset="plumbing">Plumbing</a>
+                            <a class="asset-tab" data-asset="fire">Fire Systems</a>
+                            <a class="asset-tab" data-asset="generators">Generators</a>
+                            <a class="asset-tab" data-asset="cameras">Cameras</a>
+                        </nav>
+                     </div>
+                     <div class="flex-grow overflow-y-auto">
+                        <div id="power-asset" class="asset-view grid grid-cols-1 lg:grid-cols-3 gap-6"></div>
+                        <div id="cooling-asset" class="asset-view hidden grid grid-cols-1 lg:grid-cols-3 gap-6"></div>
+                        <div id="batteries-asset" class="asset-view hidden grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
+                        <div id="plumbing-asset" class="asset-view hidden grid grid-cols-1 lg:grid-cols-3 gap-6"></div>
+                        <div id="fire-asset" class="asset-view hidden grid grid-cols-1 lg:grid-cols-3 gap-6"></div>
+                        <div id="generators-asset" class="asset-view hidden grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
+                        <div id="cameras-asset" class="asset-view hidden grid grid-cols-1 lg:grid-cols-4 gap-6"></div>
+                     </div>
+                </div>
+                
+                <!-- Other Views (New Incident, Escalation, Plan, Profile, ITIL) -->
+                <div id="new-incident-view" class="hidden flex-col flex-grow"></div>
+                <div id="escalation-view" class="hidden flex-col flex-grow"></div>
+                <div id="plan-view" class="hidden flex-col flex-grow plan-content"></div>
+                <div id="profile-view" class="hidden flex-col flex-grow"></div>
+                <div id="itil-view" class="hidden flex-col flex-grow plan-content"></div>
+            </div>
+
+            <!-- Right Details Panel -->
+            <aside id="details-panel" class="details-pane">
+                <!-- Details will be injected here -->
+            </aside>
+        </div>
+    </div>
+
+<script>
+    // Mock Data and Initialization would go here, but is omitted for brevity in this view.
+    // The full script is quite large due to the detailed asset data.
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- MOCK DATA ---
+        const mockTickets = [
+            { number: 'INC001001', priority: '1 - Critical', state: 'In Progress', short_description: 'UPS A-line is offline; running on battery', assignee: 'Okello', updated: '2025-07-30 10:05:23', description: 'The primary UPS for A-line is reporting a fault and has failed over to battery backup. All racks are still online but have limited runtime. Immediate investigation of the UPS unit is required.', activity_log: [ { user: 'System (BMS)', time: '09:45:11', entry: 'Ticket created from automated alert.' }, { user: 'Okello', time: '09:46:30', entry: 'Assigned to self. Acknowledged. On my way to the facility now.' } ] },
+            { number: 'INC001002', priority: '2 - High', state: 'New', short_description: 'Generator fuel level below 25%', assignee: 'Mugisha', updated: '2025-07-30 11:15:02', description: 'The primary diesel generator is reporting a low fuel level. Refueling needs to be scheduled within the next 24 hours to ensure site readiness.', activity_log: [ { user: 'BMS Alert', time: '11:15:02', entry: 'Ticket created based on automated fuel sensor reading.' } ] },
+            { number: 'INC001003', priority: '3 - Moderate', state: 'Resolved', short_description: 'IRAC unit in cold aisle 3 reporting high temp', assignee: 'Nantale', updated: '2025-07-29 16:30:00', description: 'The In-Row Air Conditioning unit for cold aisle 3 is reporting an outlet temperature of 28°C, which is above the 24°C threshold. Filter may need cleaning.', activity_log: [ { user: 'Nantale', time: '14:00:15', entry: 'Ticket created.' }, { user: 'Nantale', time: '16:25:00', entry: 'Cleaned the air filter on the unit. Temperatures have returned to normal.' }, { user: 'Okello', time: '16:30:00', entry: 'Verified temps are stable. Resolving ticket.' } ] },
+            { number: 'INC001004', priority: '4 - Low', state: 'New', short_description: 'Quarterly maintenance due for pump system', assignee: 'Facilities Team', updated: '2025-07-28 12:00:00', description: 'Scheduled quarterly preventative maintenance for the chilled water pump system is due next week. Need to coordinate with vendor.', activity_log: [ { user: 'Mugisha', time: '12:00:00', entry: 'Created ticket as a reminder for scheduled maintenance.' } ] },
+            { number: 'INC001005', priority: '3 - Moderate', state: 'In Progress', short_description: 'Fire suppression Room B pressure slightly low', assignee: 'Okello', updated: '2025-07-30 14:20:00', description: 'Pressure sensor for the fire suppression system in Room B is reading 295 PSI, slightly below the 300 PSI nominal value. Needs inspection.', activity_log: [ { user: 'BMS Alert', time: '14:18:00', entry: 'Low pressure warning triggered.' }, { user: 'Okello', time: '14:20:00', entry: 'Investigating.' } ] },
+            { number: 'INC001006', priority: '2 - High', state: 'New', short_description: 'Water detected under RO plant', assignee: 'Facilities Team', updated: '2025-07-30 15:00:00', description: 'Floor water sensor has been triggered under the Reverse Osmosis plant. Possible leak.', activity_log: [ { user: 'BMS Alert', time: '14:59:00', entry: 'Water sensor W-01 activated.' } ] },
+        ];
+        const mockAssets = {
+            power: { ups_a: { load: 78 }, ups_b: { load: 81 }, pue: 1.45 },
+            cooling: { iac1: { temp: 22.1, humidity: 45, status: 'Online' }, iac2: { temp: 22.3, humidity: 46, status: 'Online' }, iac3: { temp: 28.1, humidity: 44, status: 'Warning' } },
+            batteries: { bank_a: { cells: 100, health: 'Good', runtime: '45 min' }, bank_b: { cells: 100, health: 'Warning', runtime: '42 min' } },
+            plumbing: { pump1: { status: 'Online', flow_rate: 1500 }, pump2: { status: 'Online', flow_rate: 1510 }, pump3: { status: 'Standby', flow_rate: 0 }, ro_plant: { status: 'Online', output_tds: 5 }, water_tank: { level: 88 } },
+            fire: { room_a: { status: 'Normal', pressure: 300 }, room_b: { status: 'Warning', pressure: 295 }, room_c: { status: 'Normal', pressure: 299 } },
+            generators: { gen_a: { status: 'Standby / Auto', fuel: 85, hours: 1423 }, gen_b: { status: 'Standby / Auto', fuel: 86, hours: 1398 } },
+            cameras: { cam01: { status: 'Online' }, cam02: { status: 'Offline' }, cam03: { status: 'Online' }, cam04: { status: 'Online' } }
+        };
+        const mockLogs = {
+            'UPS A': [ { time: '10:01:15', system: 'UPS A', message: 'Input voltage normal' }, { time: '09:45:10', system: 'UPS A', message: 'Utility power lost, switching to battery' }, { time: '09:45:00', system: 'UPS A', message: 'Input voltage sag detected' }, { time: '08:30:00', system: 'UPS A', message: 'Weekly self-test completed' } ],
+            'IAC 3': [ { time: '16:25:00', system: 'IAC 3', message: 'Filter pressure normalized' }, { time: '14:00:14', system: 'IAC 3', message: 'High temperature alarm triggered' }, { time: '13:55:00', system: 'IAC 3', message: 'Outlet temperature rising' } ],
+            'Generator A': [ { time: '11:15:01', system: 'GEN A', message: 'Low fuel warning triggered' }, { time: '08:00:00', system: 'GEN A', message: 'Weekly self-test initiated' }, { time: '08:05:00', system: 'GEN A', message: 'Weekly self-test passed' } ],
+        };
+
+        // --- DOM ELEMENTS ---
+        const ticketListBody = document.getElementById('ticket-list');
+        const detailsPanel = document.getElementById('details-panel');
+        const searchInput = document.getElementById('search-input');
+
+        // --- RENDER FUNCTIONS ---
+        const priorityColors = { '1 - Critical': 'bg-red-100 text-red-800', '2 - High': 'bg-orange-100 text-orange-800', '3 - Moderate': 'bg-yellow-100 text-yellow-800', '4 - Low': 'bg-blue-100 text-blue-800' };
+        const stateColors = { 'New': 'bg-blue-100 text-blue-800', 'In Progress': 'bg-purple-100 text-purple-800', 'Resolved': 'bg-green-100 text-green-800' };
+
+        function renderTicketList(tickets) { ticketListBody.innerHTML = ''; tickets.forEach(ticket => { const row = document.createElement('tr'); row.className = 'ticket-row border-b'; row.dataset.id = ticket.number; row.innerHTML = `<td class="px-4 py-3 font-medium text-gray-900">${ticket.number}</td><td class="px-4 py-3"><span class="px-2 py-1 text-xs font-medium rounded-full ${priorityColors[ticket.priority] || ''}">${ticket.priority}</span></td><td class="px-4 py-3"><span class="px-2 py-1 text-xs font-medium rounded-full ${stateColors[ticket.state] || ''}">${ticket.state}</span></td><td class="px-4 py-3">${ticket.short_description}</td><td class="px-4 py-3 text-gray-500">${ticket.assignee}</td>`; row.addEventListener('click', () => { renderDetails(ticket); }); ticketListBody.appendChild(row); }); }
+        
+        function renderDetails(item) {
+            document.querySelectorAll('.ticket-row, .asset-card').forEach(r => r.classList.remove('active'));
+            if(item.number) { // It's a ticket
+                document.querySelector(`.ticket-row[data-id="${item.number}"]`)?.classList.add('active');
+                let activityHtml = item.activity_log.map(log => `<div class="mb-4"><p class="text-xs text-gray-500">${log.user} @ ${log.time}</p><p class="p-2 bg-gray-50 rounded-md mt-1">${log.entry}</p></div>`).join('');
+                detailsPanel.innerHTML = `<div class="p-4 border-b flex-shrink-0"><h3 class="text-lg font-black" style="font-family: 'Lato', sans-serif;">${item.number}: ${item.short_description}</h3></div><div class="p-4 overflow-y-auto flex-grow details-body"><div class="grid grid-cols-2 gap-4 text-sm mb-4"><div><label class="font-bold text-xs text-gray-500 uppercase">State</label><p>${item.state}</p></div><div><label class="font-bold text-xs text-gray-500 uppercase">Priority</label><p>${item.priority}</p></div><div><label class="font-bold text-xs text-gray-500 uppercase">Assignee</label><p>${item.assignee}</p></div><div><label class="font-bold text-xs text-gray-500 uppercase">Last Updated</label><p>${item.updated}</p></div></div><div><label class="font-bold text-xs text-gray-500 uppercase">Description</label><p class="mt-1">${item.description}</p></div><hr class="my-6"><div><h4 class="font-bold text-sm mb-2" style="font-family: 'Lato', sans-serif;">Activity Log</h4>${activityHtml}</div></div><div class="p-4 border-t flex-shrink-0 flex space-x-2"><button class="flex-1 bg-[#588157] text-white font-bold text-sm py-2 px-4 rounded-md hover:bg-[#3a5a40] transition">Update</button><button class="flex-1 bg-gray-200 text-gray-800 font-bold text-sm py-2 px-4 rounded-md hover:bg-gray-300 transition">Resolve</button></div>`;
+            } else { // It's an asset
+                document.querySelector(`.asset-card[data-id="${item.id}"]`)?.classList.add('active');
+                const logs = mockLogs[item.id] || [];
+                const alarms = item.alarms || [];
+                let alarmsHtml = alarms.length ? alarms.map(a => `<tr class="border-b"><td class="px-4 py-2 text-xs font-medium ${a.type === 'Critical' ? 'text-red-600' : 'text-orange-600'}">${a.type}</td><td class="px-4 py-2 text-xs">${a.msg}</td></tr>`).join('') : '<tr><td colspan="2" class="px-4 py-2 text-xs text-gray-400">No active alarms.</td></tr>';
+                let detailsHtml = Object.entries(item.details).map(([key, value]) => {
+                    let valueHtml = value;
+                    if (key.toLowerCase().includes('status') || key.toLowerCase().includes('health')) {
+                        let colorClass = '';
+                        if (String(value).toLowerCase() === 'online' || String(value).toLowerCase() === 'good' || String(value).toLowerCase() === 'normal') { colorClass = 'bg-green-100 text-green-800'; } 
+                        else if (String(value).toLowerCase() === 'offline' || String(value).toLowerCase() === 'critical') { colorClass = 'bg-red-100 text-red-800'; } 
+                        else if (String(value).toLowerCase() === 'warning' || String(value).toLowerCase() === 'standby') { colorClass = 'bg-yellow-100 text-yellow-800'; }
+                        if (colorClass) { valueHtml = `<span class="px-2 py-1 text-xs font-medium rounded-full ${colorClass}">${value}</span>`; }
+                    }
+                    return `<div><label class="font-bold text-xs text-gray-500 uppercase">${key.replace('_', ' ')}</label><div class="mt-1">${valueHtml}</div></div>`;
+                }).join('');
+                detailsPanel.innerHTML = `<div class="p-4 border-b flex-shrink-0"><h3 class="text-lg font-black" style="font-family: 'Lato', sans-serif;">Asset Details: ${item.id}</h3></div><div class="p-4 overflow-y-auto flex-grow details-body"><div class="grid grid-cols-2 gap-4 text-sm mb-4">${detailsHtml}</div><hr class="my-6"><div id="asset-alarms-container"></div><hr class="my-6"><div id="asset-log-container"></div></div>`;
+                const alarmContainer = detailsPanel.querySelector('#asset-alarms-container');
+                alarmContainer.innerHTML = `<h4 class="font-bold text-sm mb-2" style="font-family: 'Lato', sans-serif;">Recent Alarms</h4><table class="w-full text-left"><thead><tr class="text-xs text-gray-500 uppercase"><th class="px-4 py-2">Severity</th><th class="px-4 py-2">Message</th></tr></thead><tbody>${alarmsHtml}</tbody></table>`;
+                createLogPaginator(detailsPanel.querySelector('#asset-log-container'), logs, 3);
+            }
+        }
+        
+        function createLogPaginator(container, logs, itemsPerPage) {
+            if (!container) return;
+            let currentPage = 1;
+            const totalPages = Math.ceil(logs.length / itemsPerPage);
+
+            function renderLogs() {
+                const start = (currentPage - 1) * itemsPerPage;
+                const end = start + itemsPerPage;
+                const paginatedLogs = logs.slice(start, end);
+                const logHtml = paginatedLogs.map(log => `<tr class="border-b"><td class="px-4 py-2 text-xs font-mono">${log.time}</td><td class="px-4 py-2 text-xs">${log.message}</td></tr>`).join('');
+                container.querySelector('.log-list').innerHTML = logHtml || '<tr><td colspan="2" class="px-4 py-2 text-xs text-gray-400">No logs found.</td></tr>';
+                container.querySelector('.page-info').textContent = totalPages > 0 ? `Page ${currentPage} of ${totalPages}` : 'Page 1 of 1';
+                container.querySelector('.prev-btn').disabled = currentPage === 1;
+                container.querySelector('.next-btn').disabled = currentPage === totalPages;
+            }
+
+            container.innerHTML = `<h4 class="font-bold text-sm mb-2" style="font-family: 'Lato', sans-serif;">System Logs</h4><table class="w-full text-left"><thead class="text-xs text-gray-500 uppercase"><th class="px-4 py-2">Time</th><th class="px-4 py-2">Message</th></thead><tbody class="log-list"></tbody></table><div class="flex justify-between items-center mt-2"><button class="prev-btn text-xs font-bold disabled:opacity-50">Prev</button><span class="page-info text-xs"></span><button class="next-btn text-xs font-bold disabled:opacity-50">Next</button></div>`;
+            container.querySelector('.prev-btn').addEventListener('click', () => { if (currentPage > 1) { currentPage--; renderLogs(); } });
+            container.querySelector('.next-btn').addEventListener('click', () => { if (currentPage < totalPages) { currentPage++; renderLogs(); } });
+            renderLogs();
+        }
+
+        function createAssetCard(id, title, value, unit) {
+            const card = document.createElement('div');
+            card.className = 'asset-card bg-gray-50 p-4 rounded-lg border';
+            card.dataset.id = id;
+            card.innerHTML = `<h3 class="font-bold">${title}</h3><p class="text-2xl font-black mt-2">${value} <span class="text-lg font-bold text-gray-500">${unit}</span></p>`;
+            card.addEventListener('click', () => renderDetails({ id, details: { Name: title, Value: `${value} ${unit}` } }));
+            return card;
+        }
+
+        function renderAssetDashboard() {
+            // Power
+            const powerPane = document.getElementById('power-asset');
+            powerPane.innerHTML = `<div class="bg-gray-50 p-4 rounded-lg border col-span-full"><h3 class="font-bold mb-2">PUE Trend (24h)</h3><canvas id="pueChart" style="max-height: 150px;"></canvas></div>`;
+            powerPane.appendChild(createAssetCard('UPS A', 'UPS A Load', mockAssets.power.ups_a.load, '%'));
+            powerPane.appendChild(createAssetCard('UPS B', 'UPS B Load', mockAssets.power.ups_b.load, '%'));
+            powerPane.appendChild(createAssetCard('PUE', 'PUE', mockAssets.power.pue, ''));
+            new Chart(document.getElementById('pueChart'), { type: 'line', data: { labels: ['-24h', '-12h', '-6h', 'Now'], datasets: [{ data: [1.48, 1.46, 1.47, 1.45], borderColor: '#3a5a40', tension: 0.1 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } } });
+            
+            // Cooling
+            const coolingPane = document.getElementById('cooling-asset');
+            Object.entries(mockAssets.cooling).slice(0, 3).forEach(([key, value]) => {
+                coolingPane.appendChild(createAssetCard(key.toUpperCase(), `${key.toUpperCase()} Temperature`, value.temp, '°C'));
+            });
+
+            // Batteries
+            const batteriesPane = document.getElementById('batteries-asset');
+            Object.entries(mockAssets.batteries).forEach(([key, value]) => {
+                batteriesPane.appendChild(createAssetCard(key.replace('_', ' ').toUpperCase(), `${key.replace('_', ' ').toUpperCase()} Health`, value.health, ''));
+            });
+
+            // Plumbing
+            const plumbingPane = document.getElementById('plumbing-asset');
+            Object.entries(mockAssets.plumbing).forEach(([key, value]) => {
+                plumbingPane.appendChild(createAssetCard(key, key.replace('_', ' ').toUpperCase(), value.level || value.flow_rate || value.output_tds || value.status, value.level ? '%' : (value.flow_rate ? 'L/m' : 'TDS')));
+            });
+
+            // Fire Systems
+            const firePane = document.getElementById('fire-asset');
+            Object.entries(mockAssets.fire).forEach(([key, value]) => {
+                firePane.appendChild(createAssetCard(key, key.replace('_', ' ').toUpperCase(), value.pressure, 'PSI'));
+            });
+
+            // Generators
+            const genPane = document.getElementById('generators-asset');
+            Object.entries(mockAssets.generators).forEach(([key, value]) => {
+                genPane.appendChild(createAssetCard(key, key.replace('_', ' ').toUpperCase(), value.fuel, '% Fuel'));
+            });
+
+            // Cameras
+            const camPane = document.getElementById('cameras-asset');
+            Object.entries(mockAssets.cameras).forEach(([key, value]) => {
+                const card = document.createElement('div');
+                card.className = `asset-card bg-gray-50 p-4 rounded-lg border ${value.status === 'Offline' ? 'border-red-500 bg-red-50' : ''}`;
+                card.dataset.id = key;
+                card.innerHTML = `<h3 class="font-bold">${key.toUpperCase()}</h3><p class="text-sm font-bold mt-2 ${value.status === 'Offline' ? 'text-red-700' : 'text-green-700'}">${value.status}</p>`;
+                card.addEventListener('click', () => renderDetails({ id: key.toUpperCase(), details: { Name: key.toUpperCase(), Status: value.status } }));
+                camPane.appendChild(card);
+            });
+        }
+
+        // --- EVENT LISTENERS ---
+        searchInput.addEventListener('input', (e) => { const searchTerm = e.target.value.toLowerCase(); const filteredTickets = mockTickets.filter(ticket => ticket.number.toLowerCase().includes(searchTerm) || ticket.short_description.toLowerCase().includes(searchTerm)); renderTicketList(filteredTickets); });
+        const viewTabs = document.querySelectorAll('.view-tab');
+        const views = { 'incidents-view': document.getElementById('incidents-view'), 'dashboard-view': document.getElementById('dashboard-view'), 'new-incident-view': document.getElementById('new-incident-view'), 'escalation-view': document.getElementById('escalation-view'), 'plan-view': document.getElementById('plan-view'), 'profile-view': document.getElementById('profile-view'), 'itil-view': document.getElementById('itil-view') };
+        viewTabs.forEach(tab => { tab.addEventListener('click', () => { const targetId = tab.dataset.target; viewTabs.forEach(t => t.classList.remove('active')); tab.classList.add('active'); Object.values(views).forEach(view => view.classList.add('hidden')); views[targetId].classList.remove('hidden'); }); });
+        const assetTabs = document.querySelectorAll('.asset-tab');
+        const assetViews = document.querySelectorAll('.asset-view');
+        assetTabs.forEach(tab => { tab.addEventListener('click', () => { const targetId = tab.dataset.asset; assetTabs.forEach(t => t.classList.remove('active')); tab.classList.add('active'); assetViews.forEach(view => view.classList.toggle('hidden', view.id !== `${targetId}-asset`)); }); });
+        document.querySelectorAll('[data-comment-submit]').forEach(button => { button.addEventListener('click', () => { const phase = button.dataset.commentSubmit; const textarea = document.querySelector(`[data-comment-input="${phase}"]`); const commentArea = document.querySelector(`[data-comment-area="${phase}"]`); const commentText = textarea.value.trim(); if (commentText) { const newComment = document.createElement('div'); newComment.className = 'p-2 bg-white border rounded-md'; const time = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }); newComment.innerHTML = `<p class="font-lora">${commentText}</p><p class="text-xs text-gray-500 mt-1 text-right">- Customer @ ${time}</p>`; commentArea.appendChild(newComment); textarea.value = ''; } }); });
+
+        // User Profile Logic
+        document.getElementById('user-profile-button').addEventListener('click', () => {
+            document.querySelectorAll('.view-tab').forEach(t => t.classList.remove('active'));
+            Object.values(views).forEach(view => view.classList.add('hidden'));
+            views['profile-view'].classList.remove('hidden');
+            renderUserProfile();
+        });
+
+        function renderUserProfile() {
+            const profileView = document.getElementById('profile-view');
+            const resolvedTickets = mockTickets.filter(t => t.assignee === 'Okello' && t.state === 'Resolved');
+            profileView.innerHTML = `
+                <h2 class="text-xl font-black mb-4" style="font-family: 'Lato', sans-serif;">Engineer Profile: Okello</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="md:col-span-1 bg-gray-50 p-4 rounded-lg border">
+                        <h3 class="font-bold mb-2">Details</h3>
+                        <p class="text-sm"><span class="font-bold">Current Shift:</span> 08:00 - 20:00</p>
+                        <p class="text-sm"><span class="font-bold">Status:</span> <span class="text-green-600 font-bold">On Duty</span></p>
+                        <h4 class="font-bold mt-4 mb-2">Core Competencies</h4>
+                        <ul class="text-sm list-disc list-inside">
+                            <li>Schneider Electric UPS Certified</li>
+                            <li>Advanced Diesel Generator Maintenance</li>
+                            <li>Building Management System (BMS) Operation</li>
+                            <li>Fire Suppression System Certified</li>
+                        </ul>
+                    </div>
+                    <div class="md:col-span-2 bg-gray-50 p-4 rounded-lg border">
+                        <h3 class="font-bold mb-2">Recently Resolved Incidents</h3>
+                        <ul class="text-sm space-y-2">
+                            ${resolvedTickets.map(t => `<li class="border-b pb-1"><span class="font-bold">${t.number}:</span> ${t.short_description}</li>`).join('') || '<li>No resolved incidents found.</li>'}
+                        </ul>
+                    </div>
+                </div>
+            `;
+        }
+
+
+        // --- INITIAL RENDER ---
+        renderTicketList(mockTickets);
+        renderDetails(mockTickets[0]);
+        renderAssetDashboard();
+        document.querySelector('.ticket-row').classList.add('active');
+        document.querySelector('.view-tab[data-target="dashboard-view"]').click();
+    });
+</script>
+</body>
+</html>

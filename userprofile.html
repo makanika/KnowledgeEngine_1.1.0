@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Application Documentation - Employee Profile</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    body {
+      font-family: 'Lato', sans-serif;
+      background-color: #f8f7f4;
+      color: #3a3a3a;
+    }
+    h1, h2, h3 {
+      font-family: 'Lato', sans-serif;
+    }
+    .doc-section {
+      background: white;
+      padding: 2rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    .field-table th {
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      color: #6b7280;
+    }
+  </style>
+</head>
+<body class="p-6">
+  <div class="max-w-4xl mx-auto space-y-6">
+    <div class="flex justify-between items-center mb-4">
+      <div>
+        <h1 class="text-2xl font-black">Employee Profile Model</h1>
+        <p class="text-sm text-gray-500">Part of the Knowledge Engine: Identity and Access Layer</p>
+      </div>
+    </div>
+
+    <div class="doc-section">
+      <h2 class="text-xl font-bold mb-4">Model Overview</h2>
+      <p class="text-sm mb-4 leading-relaxed">The <code class="font-mono text-[#3a5a40] font-semibold">CustomUser</code> model extends Django’s <code>AbstractUser</code> and is used to manage employees and technicians in the datacenter. It includes authentication information, personnel details, shift tracking, and certification history.</p>
+
+      <h3 class="text-lg font-bold mt-6 mb-2">Fields</h3>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border field-table">
+          <thead>
+            <tr class="text-left bg-gray-100">
+              <th class="p-2">Field</th>
+              <th class="p-2">Type</th>
+              <th class="p-2">Description</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y">
+            <tr><td class="p-2 font-medium">username</td><td class="p-2">string</td><td class="p-2">Used for login (unique)</td></tr>
+            <tr><td class="p-2 font-medium">email</td><td class="p-2">email</td><td class="p-2">Primary contact & account ID</td></tr>
+            <tr><td class="p-2 font-medium">full_name</td><td class="p-2">string</td><td class="p-2">Concatenation of first + last</td></tr>
+            <tr><td class="p-2 font-medium">first_name</td><td class="p-2">string</td><td class="p-2">Legal first name</td></tr>
+            <tr><td class="p-2 font-medium">last_name</td><td class="p-2">string</td><td class="p-2">Legal surname</td></tr>
+            <tr><td class="p-2 font-medium">id_number</td><td class="p-2">string</td><td class="p-2">National or staff ID (unique)</td></tr>
+            <tr><td class="p-2 font-medium">department</td><td class="p-2">string</td><td class="p-2">e.g. Facilities, IT, Security</td></tr>
+            <tr><td class="p-2 font-medium">designation</td><td class="p-2">string</td><td class="p-2">e.g. Lead Engineer, Technician</td></tr>
+            <tr><td class="p-2 font-medium">shift</td><td class="p-2">string</td><td class="p-2">Work shift (e.g. 08:00–20:00)</td></tr>
+            <tr><td class="p-2 font-medium">on_duty</td><td class="p-2">boolean</td><td class="p-2">True if currently active</td></tr>
+            <tr><td class="p-2 font-medium">certifications</td><td class="p-2">many-to-many</td><td class="p-2">Certifications held by the user</td></tr>
+            <tr><td class="p-2 font-medium">login_time</td><td class="p-2">datetime</td><td class="p-2">Recorded system login time</td></tr>
+            <tr><td class="p-2 font-medium">logout_time</td><td class="p-2">datetime</td><td class="p-2">Recorded system logout time</td></tr>
+            <tr><td class="p-2 font-medium">photo</td><td class="p-2">image</td><td class="p-2">Employee profile image</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="text-lg font-bold mt-6 mb-2">Certifications</h3>
+      <ul class="list-disc list-inside text-sm text-gray-700">
+        <li>Uptime Institute Certified</li>
+        <li>TIA-942 Infrastructure</li>
+        <li>NFPA Fire Systems</li>
+        <li>BMS Operations</li>
+        <li>Generator Maintenance</li>
+        <li>Fire Suppression Systems</li>
+        <li>HVAC Cooling Certified</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>

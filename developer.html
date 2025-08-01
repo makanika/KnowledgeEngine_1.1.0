@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Engine - Developer Onboarding</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: #f8f7f4;
+            color: #4a4a4a;
+        }
+        .content-pane {
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .doc-content {
+            font-family: 'Lora', serif;
+        }
+        .doc-content h2 {
+            font-family: 'Lato', sans-serif;
+            font-weight: 900;
+            font-size: 1.75rem;
+            letter-spacing: -0.025em;
+            color: #1f2937;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 0.5rem;
+        }
+        .doc-content h3 {
+            font-family: 'Lato', sans-serif;
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #3a5a40;
+        }
+        .doc-content p {
+            font-size: 1rem;
+            line-height: 1.75;
+            margin-bottom: 1rem;
+        }
+        .doc-content strong {
+            font-weight: 700;
+            color: #1f2937;
+        }
+        .doc-content code {
+            background-color: #eaddd7;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9em;
+        }
+        .doc-content pre {
+            background-color: #1f2937;
+            color: #f3f4f6;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            font-size: 0.875rem;
+        }
+        .doc-content pre code {
+            background-color: transparent;
+            padding: 0;
+            color: inherit;
+        }
+        .view-tab {
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            font-weight: 700;
+            font-size: 1rem;
+            color: #6b7280;
+        }
+        .view-tab.active {
+            border-color: #3a5a40;
+            color: #3a5a40;
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-6 md:p-8">
+
+    <div class="max-w-4xl mx-auto">
+        <header class="flex flex-col sm:flex-row justify-between items-center mb-6 pb-4 border-b">
+            <div>
+                <h1 class="text-3xl font-black text-[#3a3a3a]" style="font-family: 'Lato', sans-serif;">Knowledge Engine</h1>
+                <p class="text-md text-gray-500">Developer Onboarding Guide</p>
+            </div>
+            <div class="flex items-center space-x-4 mt-3 sm:mt-0">
+                <div class="text-right">
+                    <p class="font-bold text-sm">Emiru</p>
+                    <p class="text-xs text-gray-500">Lead Developer</p>
+                </div>
+                <div class="w-10 h-10 bg-[#eaddd7] rounded-full flex items-center justify-center font-bold text-[#3a3a3a] text-sm flex-shrink-0">E</div>
+            </div>
+        </header>
+
+        <main class="content-pane">
+            <div class="border-b border-gray-200">
+                <nav class="-mb-px flex space-x-4">
+                    <a class="view-tab active" data-target="start-here">Start Here</a>
+                    <a class="view-tab" data-target="data-architecture">Data Architecture</a>
+                    <a class="view-tab" data-target="views-urls">Views, URLs & Auth</a>
+                </nav>
+            </div>
+            
+            <div id="start-here" class="tab-content p-6 sm:p-8">
+                <div class="doc-content">
+                    <h2>Introduction</h2>
+                    <p>This document serves as the primary technical guide for setting up the <code>knowledgeEngine_1.0.0</code> project for local development. Its purpose is to provide a clear and repeatable process for any developer joining the project, or for the original developer returning after a period of time.</p>
+                    <p>Following these steps will ensure you have a clean, isolated, and fully functional development environment that matches the project's requirements.</p>
+                    <hr class="my-8">
+                    <h2>1. Project Structure (Wireframe)</h2>
+                    <p>The application follows a standard, best-practice Django project structure. Understanding this layout is the first step to navigating the codebase.</p>
+                    <pre><code>knowledgeEngine_1.0.0/
+│
+├── knw/
+│   └── (Virtual Environment files...)
+│
+├── core/
+│   ├── ...
+│
+├── tickets/
+│   ├── models.py
+│   ├── ...
+│
+├── assets/
+│   ├── models.py
+│   ├── ...
+│
+├── users/
+│   ├── models.py
+│   ├── ...
+│
+├── .gitignore
+├── manage.py
+└── requirements.txt</code></pre>
+                    <hr class="my-8">
+                    <h2>2. Local Environment Setup</h2>
+                    <h3>Step 2.1: Clone the Repository</h3>
+                    <pre><code>git clone &lt;your-repository-url&gt;
+cd knowledgeEngine_1.0.0</code></pre>
+                    <h3>Step 2.2: Create and Activate the Virtual Environment</h3>
+                    <pre><code># Create the virtual environment
+python3 -m venv knw
+
+# Activate on macOS/Linux
+source knw/bin/activate</code></pre>
+                    <h3>Step 2.3: Install Dependencies</h3>
+                    <pre><code>pip install -r requirements.txt</code></pre>
+                    <h3>Step 2.4: Initial Database Setup</h3>
+                    <pre><code>python manage.py migrate
+python manage.py createsuperuser</code></pre>
+                    <h3>Step 2.5: Run the Development Server</h3>
+                    <pre><code>python manage.py runserver</code></pre>
+                </div>
+            </div>
+            
+            <div id="data-architecture" class="tab-content hidden p-6 sm:p-8">
+                <div class="doc-content">
+                    <h2>Application Data Architecture</h2>
+                    <p>These Django models define the complete database structure for our application. They are the "single source of truth" for how all data is stored.</p>
+                    
+                    <hr class="my-8">
+                    <h3>Users App (`users/models.py`)</h3>
+                    <p>We extend Django's built-in <code>AbstractUser</code> to add our role-based access control and other necessary fields.</p>
+                    <pre><code>from django.contrib.auth.models import AbstractUser
+from django.db import models
+
+class User(AbstractUser):
+    class Role(models.TextChoices):
+        TECHNICIAN = 'TECH', 'Technician'
+        ENGINEER = 'ENG', 'Engineer'
+        MANAGER = 'MGR', 'Manager'
+        ADMIN = 'ADMIN', 'Admin'
+
+    role = models.CharField(max_length=5, choices=Role.choices, default=Role.TECHNICIAN)
+    phone_number = models.CharField(max_length=20, blank=True)
+</code></pre>
+
+                    <hr class="my-8">
+                    <h3>Assets App (`assets/models.py`)</h3>
+                    <p>A base `Asset` model provides common fields, and specific models inherit from it to store detailed information for each equipment type.</p>
+                    <pre><code>import uuid
+from django.db import models
+
+class Asset(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=100, unique=True)
+    location = models.CharField(max_length=100)
+    install_date = models.DateField()
+    status = models.CharField(max_length=50, default='Operational')
+
+    class Meta:
+        abstract = True # This makes it a base model that won't create a DB table
+
+class UPS(Asset):
+    load_percentage = models.FloatField()
+    battery_health = models.CharField(max_length=50)
+    runtime_remaining = models.DurationField()
+
+class Generator(Asset):
+    fuel_level = models.FloatField()
+    engine_hours = models.PositiveIntegerField()
+
+class IAC(Asset):
+    temperature = models.FloatField()
+    humidity = models.FloatField()
+</code></pre>
+
+                    <hr class="my-8">
+                    <h3>Tickets App (`tickets/models.py`)</h3>
+                    <p>These models handle the core ticketing functionality.</p>
+                    <pre><code>import uuid
+from django.db import models
+from django.conf import settings
+
+class Ticket(models.Model):
+    # ... (Priority and State enums as before) ...
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    number = models.CharField(max_length=10, unique=True, blank=True, editable=False)
+    # ... (Other fields like priority, state, description) ...
+    
+    # A ticket can be linked to a specific asset
+    asset = models.ForeignKey(
+        'assets.Asset', # Using string to avoid circular import
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True
+    )
+    
+    assignee = models.ForeignKey(
+        settings.AUTH_USER_MODEL, 
+        on_delete=models.SET_NULL, 
+        null=True, 
+        blank=True,
+        related_name='assigned_tickets'
+    )
+    # ... (rest of the Ticket model) ...
+
+class Activity(models.Model):
+    # ... (Activity model as before) ...
+</code></pre>
+                </div>
+            </div>
+
+            <div id="views-urls" class="tab-content hidden p-6 sm:p-8">
+                <div class="doc-content">
+                    <h2>Views, URLs & Authentication</h2>
+                    <p>This section outlines how the application handles web requests and exposes data through an API. It's the bridge between our data models and the frontend prototype.</p>
+                    
+                    <hr class="my-8">
+                    <h3>API Views (`tickets/views.py`)</h3>
+                    <p>We use **Django REST Framework (DRF)** to build our API. A `ViewSet` is a class that provides the logic for standard database operations (list, create, retrieve, update, delete). `Serializers` convert our complex Django models into simple JSON that can be sent over the web.</p>
+                    <pre><code>from rest_framework import viewsets, permissions
+from .models import Ticket
+from .serializers import TicketSerializer
+
+class TicketViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows tickets to be viewed or edited.
+    """
+    queryset = Ticket.objects.all().order_by('-created_at')
+    serializer_class = TicketSerializer
+    # Only authenticated users can access this endpoint
+    permission_classes = [permissions.IsAuthenticated]
+</code></pre>
+                    <h3>Serializers (`tickets/serializers.py`)</h3>
+                    <p>This file defines how our `Ticket` model is translated into JSON.</p>
+                    <pre><code>from rest_framework import serializers
+from .models import Ticket
+
+class TicketSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Ticket
+        fields = ['number', 'priority', 'state', 'short_description', 'assignee', 'updated_at']
+</code></pre>
+
+                    <hr class="my-8">
+                    <h3>URL Routing</h3>
+                    <p>URLs are the entry points to our application. We define them in two places: one for the specific app, and one for the main project.</p>
+                    
+                    <h3>App URLs (`tickets/urls.py`)</h3>
+                    <p>This file defines the URLs for the `tickets` app. DRF's `Routers` automatically generate the standard URLs for our `ViewSet`.</p>
+                    <pre><code>from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from .views import TicketViewSet
+
+router = DefaultRouter()
+router.register(r'tickets', TicketViewSet)
+
+urlpatterns = [
+    path('', include(router.urls)),
+]
+</code></pre>
+
+                    <h3>Project URLs (`core/urls.py`)</h3>
+                    <p>This is the main URL file. It includes the URLs from our `tickets` app and the `django-allauth` URLs for handling authentication.</p>
+                    <pre><code>from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('api/', include('tickets.urls')), # Our ticket API
+    path('accounts/', include('allauth.urls')), # Office 365 login URLs
+]
+</code></pre>
+                </div>
+            </div>
+        </main>
+    </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const tabs = document.querySelectorAll('.view-tab');
+        const panes = document.querySelectorAll('.tab-content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                const targetId = this.dataset.target;
+
+                tabs.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+
+                panes.forEach(pane => {
+                    if (pane.id === targetId) {
+                        pane.classList.remove('hidden');
+                    } else {
+                        pane.classList.add('hidden');
+                    }
+                });
+            });
+        });
+    });
+</script>
+</body>
+</html>

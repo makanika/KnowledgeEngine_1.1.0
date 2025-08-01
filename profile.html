@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale-1.0">
+    <title>Emiru - Strategic Systems Architect</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: #f8f7f4;
+            color: #4a4a4a;
+        }
+        .content-pane {
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            padding: 2.5rem 3rem;
+        }
+        .profile-content {
+            font-family: 'Lora', serif;
+        }
+        .profile-content h2 {
+            font-family: 'Lato', sans-serif;
+            font-weight: 900;
+            font-size: 1.75rem;
+            letter-spacing: -0.025em;
+            color: #1f2937;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 0.5rem;
+        }
+        .profile-content h3 {
+            font-family: 'Lato', sans-serif;
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin-top: 2rem;
+            margin-bottom: 1.5rem;
+            color: #3a5a40;
+        }
+        .profile-content p {
+            font-size: 1rem;
+            line-height: 1.75;
+            margin-bottom: 1rem;
+        }
+        .profile-content strong {
+            font-weight: 700;
+            color: #1f2937;
+        }
+        .profile-content ul {
+            list-style-position: inside;
+            list-style-type: disc;
+            padding-left: 1rem;
+            line-height: 1.75;
+        }
+        .competency-card {
+            background-color: #f9fafb;
+            border: 1px solid #eaddd7;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .competency-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.07);
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-6 md:p-8">
+
+    <div class="max-w-4xl mx-auto">
+        <header class="flex flex-col sm:flex-row justify-between items-center mb-6 pb-4 border-b">
+            <div>
+                <h1 class="text-3xl font-black text-[#3a3a3a]" style="font-family: 'Lato', sans-serif;">Emiru</h1>
+                <p class="text-md text-gray-500">Strategic Systems Architect & Full-Stack Technologist</p>
+            </div>
+            <div class="flex items-center space-x-4 mt-3 sm:mt-0">
+                <div class="text-right">
+                    <p class="font-bold text-sm">Kampala, Uganda</p>
+                    <p class="text-xs text-gray-500">Available for contracts</p>
+                </div>
+                <div class="w-10 h-10 bg-[#eaddd7] rounded-full flex items-center justify-center font-bold text-[#3a3a3a] text-sm flex-shrink-0">E</div>
+            </div>
+        </header>
+
+        <main class="content-pane">
+            <div class="profile-content">
+                <h2>Executive Summary</h2>
+                <p>Emiru is a rare technologist who bridges the critical gap between physical infrastructure and high-level software architecture. With a deep, hands-on background in datacenter operations and network engineering, he brings a strategic, systems-level approach to software development. He doesn't just build applications; he architects comprehensive, process-driven solutions that are robust, scalable, and designed with the end-user's operational reality in mind. His unique strength lies in his ability to translate complex business requirements into elegant, functional, and maintainable systems from the ground up.</p>
+
+                <hr class="my-8">
+
+                <h3>Core Competencies</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="competency-card">
+                        <img src="https://placehold.co/64x64/3a5a40/f8f7f4?text=DC" alt="Datacenter Icon" class="rounded-md mb-4">
+                        <h4 class="font-bold text-lg font-lato text-gray-800">Datacenter & Physical Infrastructure</h4>
+                        <p class="text-sm mt-2">Expert-level understanding of the "grey space," including power systems (UPS, generators), advanced cooling (IAC units, chillers), battery banks, and fire suppression systems.</p>
+                    </div>
+                     <div class="competency-card">
+                        <img src="https://placehold.co/64x64/3a5a40/f8f7f4?text=NET" alt="Network Icon" class="rounded-md mb-4">
+                        <h4 class="font-bold text-lg font-lato text-gray-800">Network Engineering & Automation</h4>
+                        <p class="text-sm mt-2">CCNP-level expertise in routing and switching, coupled with a modern approach to network automation using Python to interface with and manage network devices.</p>
+                    </div>
+                     <div class="competency-card">
+                        <img src="https://placehold.co/64x64/3a5a40/f8f7f4?text=DEV" alt="Development Icon" class="rounded-md mb-4">
+                        <h4 class="font-bold text-lg font-lato text-gray-800">Software Architecture & Development</h4>
+                        <p class="text-sm mt-2">Proficient in designing and building full-stack applications using Python and Django, with a strong grasp of data modeling, API design, and creating clean, interactive user interfaces.</p>
+                    </div>
+                     <div class="competency-card">
+                        <img src="https://placehold.co/64x64/3a5a40/f8f7f4?text=ITIL" alt="ITIL Icon" class="rounded-md mb-4">
+                        <h4 class="font-bold text-lg font-lato text-gray-800">ITIL & Process Management</h4>
+                        <p class="text-sm mt-2">Certified in ITIL with a proven ability to apply its principles practically, designing systems that support formal Incident Management, Change Management, and clear Escalation Procedures.</p>
+                    </div>
+                </div>
+
+                <hr class="my-8">
+                
+                <h3>Project Showcase: The Unified Knowledge Engine</h3>
+                <p>As a demonstration of my strategic approach, I architected the **Unified Knowledge Engine**, a platform designed to automate the curation and synthesis of technical knowledge across multiple high-skill domains. The vision for this project showcases my ability to design complex, multi-faceted systems.</p>
+                <ul>
+                    <li><strong>Pillar I: Datacenter & ITIL Operations:</strong> A professional-grade tool for managing physical infrastructure with real-time asset monitoring and ITIL-driven incident and change management.</li>
+                    <li><strong>Pillar II: Embedded Systems & The Linux Kernel:</strong> A powerful tool for deep technical learning, with curated learning paths on Embedded Linux (Yocto/Buildroot), microcontroller development (Pico/ESP32), and the Linux kernel.</li>
+                    <li><strong>Pillar III: Network & Automotive Engineering:</strong> A practical application of foundational skills, with curricula on network automation (Ansible/Python) and vehicle diagnostics (CAN bus/OBD-II).</li>
+                    <li><strong>Capstone Feature: The Knowledge Share:</strong> A feature that allows the user to export their accumulated notes and AI-generated summaries into beautifully formatted documents, enabling them to teach and share their expertise with others.</li>
+                </ul>
+
+                <hr class="my-8">
+
+                <h3>How I Work: The Architect's Mindset</h3>
+                <p>What truly sets Emiru apart is his methodical and holistic approach to every project.</p>
+                <ul>
+                    <li><strong>Vision-Driven Development:</strong> He begins not with code, but with a clear vision of the final product and the processes it must support. He insists on establishing a solid foundation—from the project structure and developer onboarding guides to the team's organogram—before a single feature is built.</li>
+                    <li><strong>Uncompromising User Experience:</strong> He has a sharp, critical eye for design and usability. He understands that a tool's value is directly tied to its clarity and ease of use, consistently pushing for more intuitive layouts, cleaner typography, and a more professional aesthetic.</li>
+                    <li><strong>Documentation as a Deliverable:</strong> For Emiru, documentation is not an afterthought; it is a core component of the product. He builds comprehensive guides, plans, and reference materials in parallel with the application itself, ensuring the final product is not just functional but also maintainable and scalable for future teams.</li>
+                </ul>
+                <p class="mt-6">In essence, Emiru operates as a "lone developer with the mindset of an entire engineering department." He possesses the foresight to plan for the long term, the technical depth to execute complex integrations, and the creative vision to deliver a polished, professional product. He would be an invaluable strategic and technical asset to any organization.</p>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

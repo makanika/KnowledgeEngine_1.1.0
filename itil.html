@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Engine - ITIL Reference Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: #f8f7f4;
+            color: #4a4a4a;
+        }
+        .content-pane {
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .itil-content {
+            font-family: 'Lora', serif;
+        }
+        .itil-content h2 {
+            font-family: 'Lato', sans-serif;
+            font-weight: 900;
+            font-size: 1.75rem;
+            letter-spacing: -0.025em;
+            color: #1f2937;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 0.5rem;
+        }
+        .itil-content h3 {
+            font-family: 'Lato', sans-serif;
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #3a5a40;
+        }
+        .itil-content p {
+            font-size: 1rem;
+            line-height: 1.75;
+            margin-bottom: 1rem;
+        }
+        .itil-content p.lead::first-letter {
+            float: left;
+            font-size: 4.5rem; /* text-7xl */
+            line-height: 0.8;
+            font-weight: 400;
+            margin-right: 0.5rem;
+            margin-top: 0.5rem;
+            color: #3a5a40;
+            font-family: 'Lora', serif;
+        }
+        .itil-content strong {
+            font-weight: 700;
+            color: #1f2937;
+        }
+        .itil-content blockquote {
+            border-left: 4px solid #eaddd7;
+            padding-left: 1rem;
+            font-style: italic;
+            color: #5a5a5a;
+        }
+        .view-tab {
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            font-weight: 700;
+            font-size: 1rem;
+            color: #6b7280;
+        }
+        .view-tab.active {
+            border-color: #3a5a40;
+            color: #3a5a40;
+        }
+        .escalation-card {
+            border-left-width: 4px;
+        }
+        .level-1 { border-color: #588157; }
+        .level-2 { border-color: #fca311; }
+        .level-3 { border-color: #e63946; }
+        .level-4 { border-color: #1d3557; }
+        
+        .screenshot {
+            border: 1px solid #eaddd7; 
+            border-radius: 0.5rem; 
+            padding: 1rem; 
+            background-color: #ffffff; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-top: 1rem;
+            margin-bottom: 2rem;
+        }
+        .screenshot h4 {
+            font-family: 'Lato', sans-serif; 
+            font-weight: 900; 
+            font-size: 1.25rem;
+        }
+        .screenshot table {
+            width: 100%; 
+            text-align: left; 
+            font-size: 0.875rem; 
+            margin-top: 1rem;
+        }
+        .screenshot thead {
+            font-size: 0.75rem; 
+            text-transform: uppercase; 
+            color: #4a4a4a; 
+            background-color: #f9fafb;
+        }
+        .screenshot th, .screenshot td {
+            padding: 0.75rem 1rem;
+        }
+        .screenshot tbody tr {
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        /* Corrected Organogram Styles */
+        .org-chart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 0;
+        }
+        .org-chart ul {
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            list-style: none;
+        }
+        .org-chart li {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0 1rem;
+            position: relative;
+        }
+        .org-chart li::before, .org-chart li::after {
+            content: '';
+            position: absolute;
+            background-color: #c7c7c7;
+            z-index: 1;
+        }
+        .org-chart li::before {
+            height: 20px;
+            width: 2px;
+            top: -20px;
+        }
+        .org-chart li::after {
+            width: 100%;
+            height: 2px;
+            top: -20px;
+            left: -50%;
+        }
+        .org-chart li:first-child::after {
+            left: 50%;
+        }
+        .org-chart li:last-child::after {
+            right: 50%;
+        }
+        .org-chart li:only-child::after {
+            display: none;
+        }
+        .org-chart > ul > li::before, .org-chart > ul > li::after {
+            display: none;
+        }
+
+        .org-node {
+            background-color: #ffffff;
+            border: 1px solid #eaddd7;
+            border-top: 4px solid #3a5a40;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            text-align: center;
+            min-width: 220px;
+            margin-top: 40px;
+            position: relative;
+            z-index: 2;
+        }
+        .org-node::before {
+            content: '';
+            position: absolute;
+            height: 20px;
+            width: 2px;
+            background-color: #c7c7c7;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .org-chart > .org-node::before {
+            display: none;
+        }
+        .org-node .name {
+            font-weight: 900;
+            font-size: 1.125rem;
+            color: #1f2937;
+        }
+        .org-node .title {
+            font-family: 'Lora', serif;
+            font-style: italic;
+            color: #5a5a5a;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-6 md:p-8">
+
+    <div class="max-w-5xl mx-auto">
+        <header class="flex flex-col sm:flex-row justify-between items-center mb-6 pb-4 border-b">
+            <div>
+                <h1 class="text-3xl font-black text-[#3a3a3a]" style="font-family: 'Lato', sans-serif;">Knowledge Engine</h1>
+                <p class="text-md text-gray-500">ITIL Reference Guide</p>
+            </div>
+            <div class="flex items-center space-x-4 mt-3 sm:mt-0">
+                <div class="text-right">
+                    <p class="font-bold text-sm">Emiru</p>
+                    <p class="text-xs text-gray-500">Facilities Manager</p>
+                </div>
+                <div class="w-10 h-10 bg-[#eaddd7] rounded-full flex items-center justify-center font-bold text-[#3a3a3a] text-sm flex-shrink-0">E</div>
+            </div>
+        </header>
+
+        <main class="content-pane">
+            <div class="border-b border-gray-200">
+                <nav class="-mb-px flex space-x-4">
+                    <a class="view-tab active" data-target="incident-management">Incident Management</a>
+                    <a class="view-tab" data-target="change-management">Change Management</a>
+                    <a class="view-tab" data-target="incident-example">Incident Example</a>
+                    <a class="view-tab" data-target="change-example">Change Example</a>
+                    <a class="view-tab" data-target="escalation-matrix">Escalation Matrix</a>
+                    <a class="view-tab" data-target="organogram">Organogram</a>
+                </nav>
+            </div>
+
+            <!-- Incident Management Content -->
+            <div id="incident-management" class="tab-content p-6 sm:p-8">
+                <div class="itil-content">
+                    <h2>The Incident Management Lifecycle</h2>
+                    <p class="lead">This application is built upon the principles of the ITIL framework to ensure a structured and professional approach to service management. An **incident**, in ITIL terms, is defined as an unplanned interruption to a service or a reduction in the quality of a service. The goal of Incident Management is not to find the root cause, but to restore normal service operation as quickly as possible and minimize the adverse impact on business operations.</p>
+                    <p>The following lifecycle stages directly inform the features and workflows designed into this ticketing system, providing a clear map from best-practice theory to your specific operational structure.</p>
+                    <hr class="my-8">
+                    <h3>1. Incident Identification & Logging</h3>
+                    <p><em>In our application, a **NOC Engineer** monitoring the Building Management System (BMS) sees a critical alert for "UPS A-line offline" and the system automatically logs `INC001001`. Simultaneously, a **Facilities Technician** on a physical round notices a water leak and uses the "New Incident" form on their tablet to manually log `INC001006`.</em></p>
+                    <h3>2. Categorization & Prioritization</h3>
+                    <p><em>The system automatically categorizes the UPS alert as "Power" and sets its priority to "1 - Critical" based on predefined rules. The NOC Engineer reviews and confirms this. The manually logged water leak is categorized as "Plumbing" and the Technician sets the priority to "2 - High." These priorities directly feed the Escalation Matrix.</em></p>
+                    <h3>3. Initial Diagnosis</h3>
+                    <p><em>The on-duty **Facilities Engineer** is automatically assigned the critical UPS ticket. Their first action is to go to the **Asset Dashboard**. They click the **"Power"** tab and immediately see the status of all UPS units, their load, and any related alarms in the right-hand panel, helping them diagnose the problem before even entering the UPS room.</em></p>
+                    <h3>4. Escalation</h3>
+                    <p><em>The "Escalation Matrix" tab is a direct implementation of hierarchical escalation. If the on-duty Facilities Engineer cannot resolve the P1 UPS failure within 30 minutes, the system automatically sends an email and SMS notification to the **Facilities Manager**. If the incident remains unresolved for another hour, the **VP of Tech and Operations** is automatically notified.</em></p>
+                    <h3>5. Resolution & Recovery</h3>
+                    <p><em>All actions are logged in the ticket's **Activity Log**. A **Facilities Technician**, dispatched by the engineer, replaces a faulty UPS battery and logs "Battery module 3 in string A replaced." The engineer then logs "UPS A brought back online, load transferred successfully." The ability to attach a photo of the faulty battery creates a complete and auditable record.</em></p>
+                    <h3>6. Incident Closure</h3>
+                    <p><em>In our workflow, the Facilities Engineer changes the ticket state to "Resolved." Best practice dictates that the **NOC Manager** or the **Facilities Manager** should then verify the fix by checking the BMS for normal readings before changing the state to "Closed," providing a final layer of quality assurance. The **General Manager** can view reports on resolved incidents but is not involved in the operational closure process.</em></p>
+                </div>
+            </div>
+
+            <!-- Change Management Content -->
+            <div id="change-management" class="tab-content hidden p-6 sm:p-8">
+                 <div class="itil-content">
+                    <h2>ITIL Foundation: Change Management</h2>
+                    <p class="lead">While Incident Management is about restoring service as quickly as possible, **Change Management** is the process for managing the addition, modification, or removal of anything that could have a direct or indirect effect on services. Its primary goal is to minimize the risk and impact of changes to the operational environment.</p>
+                    <p>A "change" is not a bug fix; it's a planned activity. This could be anything from upgrading the firmware on a UPS to replacing a cooling pump or updating the software on the BMS. Uncontrolled changes are one of the biggest causes of major incidents, which is why a formal process is essential.</p>
+                    <hr class="my-8">
+                    <h3>The Change Management Process</h3>
+                    <h4>1. Request for Change (RFC)</h4>
+                    <p>A change begins with a formal **Request for Change (RFC)**. This is a document that details the proposed change, the reason for it, the potential benefits, and the expected risks. In our application, a Facilities Engineer like **Okello** would fill out a "New Change Request" form after identifying the need for a firmware upgrade on the UPS systems.</p>
+                    <h4>2. Assessment & Evaluation</h4>
+                    <p>Once an RFC is submitted, it must be assessed. The key questions are: What is the impact of this change? What is the risk of implementing it? What is the risk of *not* implementing it? The assessment will involve reviewing the proposed implementation plan, backout plan, and required resources.</p>
+                    <h4>3. Authorization: The Change Advisory Board (CAB)</h4>
+                    <p>This is the most critical step. High-risk or high-impact changes must be approved by a **Change Advisory Board (CAB)**. The CAB is not a fixed team; it's a group of people with the knowledge and authority to make an informed decision about the change. Its composition depends on the nature of the change being discussed.</p>
+                    <blockquote>Using our organogram, we can constitute a practical CAB for a major datacenter change, such as replacing a primary chiller unit:</blockquote>
+                    <ul>
+                        <li><strong>CAB Chair:</strong> **Byaruhanga Charles (VP Tech and Operations)**. As the ultimate authority, he chairs the meeting and makes the final go/no-go decision.</li>
+                        <li><strong>Core Members:</strong> **Achen Gloria (Facilities Manager)** and **Okumu Joseph (NOC Manager)**. Achen must assess the impact on the physical infrastructure and staffing, while Okumu must assess the impact on service monitoring and potential customer-facing downtime.</li>
+                        <li><strong>Technical Experts (as required):** **Okello David (Facilities Engineer)** would be brought in to present the technical details of the chiller replacement, the implementation plan, and the risk assessment. If an external vendor is involved, their lead engineer would also be invited to the CAB meeting.</li>
+                    </ul>
+                    <h4>4. Implementation & Review</h4>
+                    <p>Once authorized by the CAB, the change is scheduled and implemented by the assigned engineer or team. After the change is complete, a **Post-Implementation Review (PIR)** is conducted to confirm whether the change was successful, met its objectives, and had any unforeseen impacts. This review is essential for continuous improvement.</p>
+                </div>
+            </div>
+            
+            <!-- Incident Example Content -->
+            <div id="incident-example" class="tab-content hidden p-6 sm:p-8">
+                <div class="itil-content">
+                    <h2>Incident Example: The Overheating IAC Unit</h2>
+                    <div class="screenshot">
+                        <h4>Incident Summary</h4>
+                        <table>
+                            <tbody>
+                                <tr class="border-b"><td class="font-bold w-1/3">Incident Number</td><td><code>INC001007</code></td></tr>
+                                <tr class="border-b"><td class="font-bold w-1/3">Short Description</td><td>High Temperature Alarm on IAC 1</td></tr>
+                                <tr class="border-b"><td class="font-bold w-1/3">Priority</td><td>3 - Moderate</td></tr>
+                                <tr class="border-b"><td class="font-bold w-1/3">Category</td><td>Cooling</td></tr>
+                                <tr class="border-b"><td class="font-bold w-1/3">Logged By</td><td>System (BMS)</td></tr>
+                                <tr class="border-b"><td class="font-bold w-1/3">Assigned To</td><td>Okello David (Facilities Engineer)</td></tr>
+                                <tr class="border-b"><td class="font-bold w-1/3">Resolution</td><td>Replaced blocked air filter on IAC 1.</td></tr>
+                                <tr class="border-b"><td class="font-bold w-1/3">Resolved By</td><td>Nantale Esther (Facilities Technician)</td></tr>
+                                <tr><td class="font-bold w-1/3">Closed By</td><td>Okumu Joseph (NOC Manager)</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <hr class="my-8">
+                    <h3>1. Incident Identification & Logging</h3>
+                    <p><strong>Time:</strong> 10:30 AM</p>
+                    <p><strong>Action:</strong> The Building Management System (BMS) detects that the outlet temperature of **IAC 1** has exceeded its 24°C threshold. It automatically sends an alert to the Knowledge Engine.</p>
+                    <p><strong>System Response:</strong> The application instantly creates and logs a new ticket. The on-duty **NOC Engineer (Apio Susan)** sees the new incident appear at the top of her queue.</p>
+                </div>
+            </div>
+            
+             <!-- Change Example Content -->
+            <div id="change-example" class="tab-content hidden p-6 sm:p-8">
+                <div class="itil-content">
+                    <h2>Change Management Example: Generator A Alternator Replacement</h2>
+                    <p>This document walks through a real-world example of a **Standard Change** that requires formal approval. The goal is to proactively replace the alternator on Generator A, which has been showing signs of wear during weekly diagnostics. While this is preventative maintenance, it involves taking a critical backup system offline and therefore carries significant risk.</p>
+                    <hr class="my-8">
+                    <h3>1. Request for Change (RFC)</h3>
+                    <p><strong>Action:</strong> During a routine weekly generator test, the on-duty **Facilities Engineer (Okello David)** notes that the alternator on Generator A is failing to maintain a stable voltage under load. He determines a replacement is necessary to ensure site reliability. He logs into the Knowledge Engine and submits a new Request for Change (RFC).</p>
+                    <div class="screenshot">
+                        <h4>Excerpt: New Change Request Form</h4>
+                        <table>
+                            <tbody>
+                                <tr class="border-b"><td class="font-bold w-1/3">Change Number</td><td><code>RFC00126</code></td></tr>
+                                <tr class="border-b"><td class="font-bold w-1/3">Requested By</td><td>Okello David</td></tr>
+                                <tr class="border-b"><td class="font-bold w-1/3">Short Description</td><td>Preventative Replacement of Generator A Alternator</td></tr>
+                                <tr class="border-b"><td class="font-bold w-1/3">Reason for Change</td><td>Generator A alternator is showing voltage instability during load tests. Proactive replacement is required to prevent failure during a real utility outage.</td></tr>
+                                <tr class="border-b"><td class="font-bold w-1/3">Proposed Implementation</td><td>Perform replacement during the Saturday maintenance window (14:00 - 18:00). Generator B will remain in standby/auto mode. Full system load test to be performed on Generator A post-replacement.</td></tr>
+                                <tr class="border-b"><td class="font-bold w-1/3">Risk Assessment</td><td>High. Renders Generator A unavailable for the duration of the change. If a utility outage occurs and Generator B fails to start, the site would be at risk.</td></tr>
+                                <tr><td class="font-bold w-1/3">Backout Plan</td><td>If the new alternator is faulty or the replacement cannot be completed within the window, the old alternator will be re-installed to return the generator to a ready state.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <h3>2. Assessment & Evaluation</h3>
+                    <p><strong>Action:</strong> The system automatically assigns the RFC to the **Facilities Manager (Achen Gloria)** for initial assessment. She reviews the plan, agrees with the high-risk assessment, and confirms that the change requires full approval from the Change Advisory Board (CAB).</p>
+                    <p><strong>System Response:</strong> Achen adds a comment to the RFC: *"This is a necessary but high-risk change. Concur with the plan. Scheduling for this week's CAB meeting for formal approval."* and sets the status to "Pending CAB Approval."</p>
+                    <h3>3. Authorization: The Change Advisory Board (CAB)</h3>
+                    <p><strong>Action:</strong> The weekly CAB meeting is convened. The board is constituted based on the organogram. Okello presents the RFC, explaining the diagnostic data and the necessity of the change. Okumu confirms that the NOC team will be aware of the reduced generator redundancy during the maintenance window. Achen confirms that the new alternator has been received and tested by the vendor.</p>
+                    <p><strong>System Response:</strong> After discussion, **Byaruhanga Charles** gives his formal approval. He updates the RFC in the system, changing its status to **"Approved"** and adding a comment: *"Approved. Proceed as planned. Okello, please ensure a full load test is completed and results are attached to this RFC before closure."*</p>
+                    <h3>4. Implementation & Review</h3>
+                    <p><strong>Action:</strong> During the scheduled maintenance window, **Okello** and **Mugisha Samuel (Facilities Technician)** successfully replace the alternator. They follow the plan precisely, documenting each step in the RFC's activity log.</p>
+                    <p><strong>System Response:</strong> After the change is complete, the system prompts Okello to conduct a **Post-Implementation Review (PIR)**. He attaches the PDF report from the successful load test, which shows stable voltage output. He marks the RFC as **"Successful."** The change is now complete, and the system retains a full, auditable record of the entire process.</p>
+                </div>
+            </div>
+
+            <!-- Escalation Matrix Content -->
+            <div id="escalation-matrix" class="tab-content hidden p-6 sm:p-8">
+                <div class="itil-content">
+                    <h2>Datacenter Incident Escalation Matrix</h2>
+                </div>
+                <div class="space-y-6 mt-6">
+                    <!-- Level 1 Escalation -->
+                    <div class="escalation-card level-1">
+                        <div class="p-6">
+                            <div class="flex justify-between items-center">
+                                <h2 class="text-xl font-bold text-gray-800">Level 1: First Responders</h2>
+                                <span class="font-bold text-green-700">Response Time: 15 Minutes</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-2 font-lora">Initial point of contact for all new incidents. Responsible for initial diagnosis, logging, and resolution of routine issues.</p>
+                            <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+                                <div>
+                                    <p class="font-bold uppercase text-xs text-gray-500">Facilities Team</p>
+                                    <p class="font-bold mt-2">Okello David <span class="font-normal text-gray-600">- Facilities Engineer</span></p>
+                                    <p class="font-bold mt-1">Mugisha Samuel <span class="font-normal text-gray-600">- Facilities Technician</span></p>
+                                    <p class="font-bold mt-1">Nantale Esther <span class="font-normal text-gray-600">- Facilities Technician</span></p>
+                                </div>
+                                <div>
+                                    <p class="font-bold uppercase text-xs text-gray-500">NOC Team</p>
+                                    <p class="font-bold mt-2">Apio Susan <span class="font-normal text-gray-600">- NOC Engineer</span></p>
+                                    <p class="font-bold mt-1">Bwire Peter <span class="font-normal text-gray-600">- NOC Engineer</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Level 2 Escalation -->
+                    <div class="escalation-card level-2">
+                        <div class="p-6">
+                            <div class="flex justify-between items-center">
+                                <h2 class="text-xl font-bold text-gray-800">Level 2: Management</h2>
+                                <span class="font-bold text-orange-600">Response Time: 30 Minutes</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-2 font-lora">Triggered for any P1 (Critical) incident, or if a P2 incident is not acknowledged by L1 within 30 minutes. Responsible for coordinating resources and communication.</p>
+                            <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+                                <div>
+                                    <p class="font-bold uppercase text-xs text-gray-500">Facilities</p>
+                                    <p class="font-bold mt-2">Achen Gloria <span class="font-normal text-gray-600">- Facilities Manager</span></p>
+                                </div>
+                                <div>
+                                    <p class="font-bold uppercase text-xs text-gray-500">NOC</p>
+                                    <p class="font-bold mt-2">Okumu Joseph <span class="font-normal text-gray-600">- NOC Manager</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Level 3 Escalation -->
+                    <div class="escalation-card level-3">
+                        <div class="p-6">
+                            <div class="flex justify-between items-center">
+                                <h2 class="text-xl font-bold text-gray-800">Level 3: Senior Management</h2>
+                                <span class="font-bold text-red-700">Response Time: 60 Minutes</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-2 font-lora">Triggered if a P1 incident is not resolved within 2 hours. Responsible for major incident decisions and business-level communication.</p>
+                            <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                                <div>
+                                    <p class="font-bold">Byaruhanga Charles</p>
+                                    <p class="title">VP Tech and Operations</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Level 4 Escalation -->
+                    <div class="escalation-card level-4">
+                        <div class="p-6">
+                            <div class="flex justify-between items-center">
+                                <h2 class="text-xl font-bold text-gray-800">Level 4: Executive Leadership</h2>
+                                <span class="font-bold text-blue-800">Notification Only</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-2 font-lora">Triggered for catastrophic, site-wide events or on the discretion of the VP. This level is for awareness and strategic business decisions, not technical resolution.</p>
+                            <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                                <div>
+                                    <p class="font-bold">Kato Isaac</p>
+                                    <p class="title">General Manager</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Organogram Content -->
+            <div id="organogram" class="tab-content hidden p-6 sm:p-8">
+                <div class="itil-content">
+                    <h2>Datacenter Operations Organogram</h2>
+                </div>
+                <div class="org-chart mt-6">
+                    <div class="org-node">
+                        <p class="name">Kato Isaac</p>
+                        <p class="title">General Manager</p>
+                    </div>
+                    <ul>
+                        <li>
+                            <div class="org-node">
+                                <p class="name">Byaruhanga Charles</p>
+                                <p class="title">VP Tech and Operations</p>
+                            </div>
+                            <ul>
+                                <li>
+                                    <div class="org-node">
+                                        <p class="name">Achen Gloria</p>
+                                        <p class="title">Facilities Manager</p>
+                                    </div>
+                                    <ul>
+                                        <li>
+                                            <div class="org-node">
+                                                <p class="name">Okello David</p>
+                                                <p class="title">Facilities Engineer</p>
+                                            </div>
+                                            <ul>
+                                                <li><div class="org-node"><p class="name">Mugisha Samuel</p><p class="title">Facilities Technician</p></div></li>
+                                                <li><div class="org-node"><p class="name">Nantale Esther</p><p class="title">Facilities Technician</p></div></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <div class="org-node">
+                                        <p class="name">Okumu Joseph</p>
+                                        <p class="title">Service Manager / NOC Manager</p>
+                                    </div>
+                                    <ul>
+                                        <li><div class="org-node"><p class="name">Apio Susan</p><p class="title">NOC Engineer</p></div></li>
+                                        <li><div class="org-node"><p class="name">Bwire Peter</p><p class="title">NOC Engineer</p></div></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </main>
+    </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const tabs = document.querySelectorAll('.view-tab');
+        const panes = document.querySelectorAll('.tab-content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                const targetId = this.dataset.target;
+
+                // Update tabs
+                tabs.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+
+                // Update panes
+                panes.forEach(pane => {
+                    if (pane.id === targetId) {
+                        pane.classList.remove('hidden');
+                    } else {
+                        pane.classList.add('hidden');
+                    }
+                });
+            });
+        });
+    });
+</script>
+</body>
+</html>
