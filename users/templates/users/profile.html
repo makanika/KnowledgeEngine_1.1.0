@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ user.full_name }}'s Profile - Knowledge Engine{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+
+    <!-- Left Column: Profile Card -->
+    <aside class="profile-card">
+        
+        <!-- Display user's photo if it exists, otherwise show a placeholder -->
+        {% if user.photo %}
+            <img src="{{ user.photo.url }}" alt="{{ user.full_name }}'s photo" class="profile-photo">
+        {% else %}
+            <img src="https://placehold.co/150x150/eaddd7/3a3a3a?text={{ user.first_name.0|upper }}" alt="Placeholder photo" class="profile-photo">
+        {% endif %}
+        
+        <h2>{{ user.full_name }}</h2>
+        <p>{{ user.designation }}</p>
+        <p>{{ user.department }} Department</p>
+
+        <!-- Display On/Off Duty status with appropriate styling -->
+        {% if user.on_duty %}
+            <div class="duty-status on-duty">
+                On Duty
+            </div>
+        {% else %}
+            <div class="duty-status off-duty">
+                Off Duty
+            </div>
+        {% endif %}
+    </aside>
+
+    <!-- Right Column: Detailed Information -->
+    <section class="profile-details">
+        <h3>Employee Details</h3>
+        <div class="details-grid">
+            <div class="detail-item">
+                <label>Email Address</label>
+                <p>{{ user.email }}</p>
+            </div>
+            <div class="detail-item">
+                <label>Staff ID Number</label>
+                <p>{{ user.id_number }}</p>
+            </div>
+            <div class="detail-item">
+                <label>Datacenter Location</label>
+                <!-- Check if location is set before trying to display it -->
+                <p>{% if user.location %}{{ user.location }}{% else %}Not Assigned{% endif %}</p>
+            </div>
+            <div class="detail-item">
+                <label>Current Shift</label>
+                <p>{{ user.shift }}</p>
+            </div>
+        </div>
+
+        <h3 style="margin-top: 2.5rem;">Certifications</h3>
+        <ul class="certifications-list">
+            <!-- Loop through all certifications linked to this user -->
+            {% for cert in user.certifications.all %}
+                <li>{{ cert.name }}</li>
+            {% empty %}
+                <!-- This message shows if the user has no certifications -->
+                <li>No certifications on record.</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+</div>
+{% endblock %}

@@ -1,0 +1,282 @@
+/* static/css/style.css */
+
+/* --- General Body and Font Styles --- */
+body {
+    font-family: 'Lato', sans-serif;
+    background-color: #f8f7f4;
+    color: #4a4a4a;
+    margin: 0;
+    padding: 0;
+}
+
+/* --- Custom Login Page Background (Corrected) --- */
+.login-page-background {
+    /* This corrected version layers multiple backgrounds in a single property.
+       This is a more reliable method than using pseudo-elements.
+       Layer 1: The code SVG
+       Layer 2: The checkered pattern
+       Layer 3: The base background color
+    */
+    background-image: 
+        /* Layer 1: Python Code SVG */
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='600'%3E%3Cdefs%3E%3Cstyle%3E.code %7B font-family: 'Fira Code', 'Courier New', monospace; font-size: 14px; fill: rgba(60, 60, 60, 0.04); %7D%3C/style%3E%3C/defs%3E%3Ctext x='20' y='50' class='code'%3Efrom django.db import models%3C/text%3E%3Ctext x='20' y='80' class='code'%3Eclass Ticket(models.Model):%3C/text%3E%3Ctext x='40' y='110' class='code'%3E    priority = models.CharField(max_length=20)%3C/text%3E%3Ctext x='40' y='140' class='code'%3E    status = models.CharField(max_length=20, default='New')%3C/text%3E%3Ctext x='40' y='170' class='code'%3E    description = models.TextField()%3C/text%3E%3Ctext x='20' y='200' class='code'%3E    def __str__(self):%3C/text%3E%3Ctext x='40' y='230' class='code'%3E        return self.description[:50]%3C/text%3E%3Ctext x='350' y='300' class='code'%3Eclass Asset(models.Model):%3C/text%3E%3Ctext x='370' y='330' class='code'%3E    name = models.CharField(max_length=100)%3C/text%3E%3Ctext x='370' y='360' class='code'%3E    location = models.ForeignKey(Location, on_delete=models.PROTECT)%3C/text%3E%3C/svg%3E"),
+        /* Layer 2: Checkered Pattern */
+        repeating-linear-gradient(to right, rgba(234, 221, 215, 0.5) 1px, transparent 1px, transparent 40px), 
+        repeating-linear-gradient(to bottom, rgba(234, 221, 215, 0.5) 1px, transparent 1px, transparent 40px);
+    
+    /* Layer 3: Base color */
+    background-color: #f8f7f4;
+}
+
+
+/* --- Header Styles --- */
+.app-header {
+    background-color: #ffffff;
+    padding: 1rem 2rem;
+    border-bottom: 1px solid #eaddd7;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.header-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-text {
+    font-family: 'Lato', sans-serif;
+    font-weight: 900;
+    font-size: 1.75rem;
+    color: #3a3a3a;
+    margin: 0;
+}
+
+.logo-subtext {
+    font-size: 0.9rem;
+    color: #6b7280;
+    margin: 0;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+}
+
+.user-details {
+    text-align: right;
+    margin-right: 1rem;
+}
+
+.user-name {
+    font-weight: 700;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.user-shift {
+    font-size: 0.8rem;
+    color: #6b7280;
+    margin: 0;
+}
+
+.logout-button {
+    background-color: #3a5a40;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.9rem;
+    transition: background-color 0.2s;
+}
+
+.logout-button:hover {
+    background-color: #2c4230;
+}
+
+
+/* --- Main Content Container --- */
+.main-container {
+    padding: 2rem;
+    position: relative;
+    z-index: 1;
+}
+
+/* --- Login Page Styles (Updated) --- */
+.login-container {
+    max-width: 400px; /* Narrower for a more focused look */
+    margin: 4rem auto; /* More vertical space */
+    padding: 2.5rem;
+    background-color: #ffffff;
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1), 0 5px 10px rgba(0,0,0,0.04); /* More defined shadow */
+    border: 1px solid #eaddd7;
+    position: relative;
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.login-header h2 {
+    font-family: 'Lato', sans-serif;
+    font-weight: 900;
+    font-size: 1.75rem;
+    color: #1f2937;
+    margin: 0;
+}
+
+.login-form .form-field {
+    margin-bottom: 1.5rem;
+}
+
+.login-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+.login-form input[type="text"],
+.login-form input[type="password"] {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 0.375rem;
+    box-sizing: border-box;
+    font-size: 1rem;
+    transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.login-form input[type="text"]:focus,
+.login-form input[type="password"]:focus {
+    outline: none;
+    border-color: #3a5a40;
+    box-shadow: 0 0 0 3px rgba(58, 90, 64, 0.2);
+}
+
+.login-button {
+    width: 100%;
+    padding: 0.85rem;
+    border: none;
+    border-radius: 0.375rem;
+    background-color: #3a5a40;
+    color: white;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.login-button:hover {
+    background-color: #2c4230;
+    transform: translateY(-2px);
+}
+
+.error-message {
+    color: #e63946;
+    text-align: center;
+    margin-top: 1.5rem;
+    font-weight: 700;
+}
+
+/* --- Profile Page Styles --- */
+.profile-container {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.profile-card, .profile-details {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.profile-card .profile-photo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin: 0 auto 1.5rem auto;
+    display: block;
+    object-fit: cover;
+    border: 4px solid #eaddd7;
+}
+
+.profile-card h2 {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 900;
+    margin-bottom: 0.25rem;
+}
+
+.profile-card p {
+    text-align: center;
+    margin: 0.25rem 0;
+    color: #6b7280;
+}
+
+.profile-card .duty-status {
+    text-align: center;
+    margin-top: 1rem;
+    font-weight: 700;
+    padding: 0.5rem;
+    border-radius: 0.375rem;
+}
+
+.profile-card .on-duty {
+    background-color: #dcfce7;
+    color: #166534;
+}
+
+.profile-card .off-duty {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+
+.profile-details h3 {
+    font-size: 1.25rem;
+    font-weight: 900;
+    border-bottom: 1px solid #eaddd7;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.detail-item label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #6b7280;
+    text-transform: uppercase;
+}
+
+.detail-item p {
+    font-family: 'Lora', serif;
+    font-size: 1.1rem;
+    margin-top: 0.25rem;
+}
+
+.certifications-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.certifications-list li {
+    background-color: #f8f7f4;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    margin-bottom: 0.5rem;
+    font-family: 'Lora', serif;
+}

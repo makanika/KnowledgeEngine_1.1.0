@@ -65,7 +65,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'Core.wsgi.application'
+WSGI_APPLICATION = 'core.wsgi.application'
 
 
 # --- DATABASE CONFIGURATION ---

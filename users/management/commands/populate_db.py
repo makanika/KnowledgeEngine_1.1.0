@@ -1,9 +1,9 @@
-# Users/management/commands/populate_db.py
+# users/management/commands/populate_db.py
 
 import random
 from django.core.management.base import BaseCommand
 from django.db import transaction
-from Users.models import CustomUser, Location, Certification
+from users.models import CustomUser, Location, Certification # CORRECTED: 'Users' changed to 'users'
 
 # --- Data for Population ---
 

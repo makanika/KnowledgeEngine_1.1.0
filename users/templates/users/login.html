@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Login - Knowledge Engine{% endblock %}
+
+<!-- This adds the 'login-page-background' class to the body for this page only -->
+{% block body_class %}login-page-background{% endblock %}
+
+{% block content %}
+<div class="login-container">
+    <div class="login-header">
+        <h2>Welcome Back</h2>
+    </div>
+
+    <form class="login-form" method="post">
+        
+        <!-- Django requires this for security to prevent Cross-Site Request Forgery -->
+        {% csrf_token %}
+
+        <div class="form-field">
+            <label for="{{ form.username.id_for_label }}">Username</label>
+            <!-- Django will render the username input field here -->
+            {{ form.username }}
+        </div>
+
+        <div class="form-field">
+            <label for="{{ form.password.id_for_label }}">Password</label>
+            <!-- Django will render the password input field here -->
+            {{ form.password }}
+        </div>
+
+        <button type="submit" class="login-button">Login</button>
+    </form>
+
+    <!-- 
+        This section will only be displayed if the login_view sends an error message.
+        (e.g., if the username or password was incorrect)
+    -->
+    {% if message %}
+        <p class="error-message">{{ message }}</p>
+    {% endif %}
+
+</div>
+{% endblock %}

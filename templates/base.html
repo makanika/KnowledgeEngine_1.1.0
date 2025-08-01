@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>{% block title %}Knowledge Engine{% endblock %}</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<!-- This block allows child templates to add their own classes to the body tag -->
+<body class="{% block body_class %}{% endblock %}">
+
+    <header class="app-header">
+        <div class="header-content">
+            <div>
+                <h1 class="logo-text">Knowledge Engine</h1>
+                <p class="logo-subtext">Datacenter Facilities Management</p>
+            </div>
+            
+            {% if user.is_authenticated %}
+            <div class="user-info">
+                <div class="user-details">
+                    <p class="user-name">Welcome, {{ user.full_name }}</p>
+                    <p class="user-shift">Shift: {{ user.shift }}</p>
+                </div>
+                <a href="{% url 'logout' %}" class="logout-button">Logout</a>
+            </div>
+            {% endif %}
+        </div>
+    </header>
+
+    <main class="main-container">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+</body>
+</html>
