@@ -4,68 +4,164 @@
 {% block title %}{{ user.full_name }}'s Profile - Knowledge Engine{% endblock %}
 
 {% block content %}
-<div class="profile-container">
 
-    <!-- Left Column: Profile Card -->
-    <aside class="profile-card">
+<!-- Compact Profile Grid Layout -->
+<div class="profile-grid-container">
+    
+    <!-- Row 1: Profile Overview -->
+    <div class="profile-overview-section">
+        <!-- Profile Photo -->
+        <div class="profile-photo-compact">
+            {% if user.photo %}
+                <img src="{{ user.photo.url }}" alt="{{ user.full_name }}'s photo" class="profile-photo-img">
+            {% else %}
+                <div class="profile-photo-placeholder-compact">
+                    <span class="photo-initials-compact">{{ user.first_name.0|upper }}{{ user.last_name.0|upper }}</span>
+                </div>
+            {% endif %}
+        </div>
         
-        <!-- Display user's photo if it exists, otherwise show a placeholder -->
-        {% if user.photo %}
-            <img src="{{ user.photo.url }}" alt="{{ user.full_name }}'s photo" class="profile-photo">
-        {% else %}
-            <img src="https://placehold.co/150x150/eaddd7/3a3a3a?text={{ user.first_name.0|upper }}" alt="Placeholder photo" class="profile-photo">
-        {% endif %}
-        
-        <h2>{{ user.full_name }}</h2>
-        <p>{{ user.designation }}</p>
-        <p>{{ user.department }} Department</p>
-
-        <!-- Display On/Off Duty status with appropriate styling -->
-        {% if user.on_duty %}
-            <div class="duty-status on-duty">
-                On Duty
-            </div>
-        {% else %}
-            <div class="duty-status off-duty">
-                Off Duty
-            </div>
-        {% endif %}
-    </aside>
-
-    <!-- Right Column: Detailed Information -->
-    <section class="profile-details">
-        <h3>Employee Details</h3>
-        <div class="details-grid">
-            <div class="detail-item">
-                <label>Email Address</label>
-                <p>{{ user.email }}</p>
-            </div>
-            <div class="detail-item">
-                <label>Staff ID Number</label>
-                <p>{{ user.id_number }}</p>
-            </div>
-            <div class="detail-item">
-                <label>Datacenter Location</label>
-                <!-- Check if location is set before trying to display it -->
-                <p>{% if user.location %}{{ user.location }}{% else %}Not Assigned{% endif %}</p>
-            </div>
-            <div class="detail-item">
-                <label>Current Shift</label>
-                <p>{{ user.shift }}</p>
+        <!-- Professional Info -->
+        <div class="professional-info-compact">
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="info-label">Staff ID</span>
+                    <span class="info-value">{{ user.id_number }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Email</span>
+                    <span class="info-value">{{ user.email }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Username</span>
+                    <span class="info-value">{{ user.username }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Location</span>
+                    <span class="info-value">{% if user.location %}{{ user.location }}{% else %}Not Assigned{% endif %}</span>
+                </div>
             </div>
         </div>
+        
+        <!-- Session Info -->
+        <div class="session-info-compact">
+            <div class="session-grid">
+                {% if user.login_time %}
+                    <div class="session-item">
+                        <span class="session-label">Last Login</span>
+                        <span class="session-value">{{ user.login_time|date:"M d, H:i" }}</span>
+                    </div>
+                {% endif %}
+                {% if user.logout_time %}
+                    <div class="session-item">
+                        <span class="session-label">Last Logout</span>
+                        <span class="session-value">{{ user.logout_time|date:"M d, H:i" }}</span>
+                    </div>
+                {% endif %}
+                <div class="session-item">
+                    <span class="session-label">Account Status</span>
+                    <span class="session-value">
+                        {% if user.is_active %}
+                            <span class="status-active">Active</span>
+                        {% else %}
+                            <span class="status-inactive">Inactive</span>
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        <h3 style="margin-top: 2.5rem;">Certifications</h3>
-        <ul class="certifications-list">
-            <!-- Loop through all certifications linked to this user -->
-            {% for cert in user.certifications.all %}
-                <li>{{ cert.name }}</li>
-            {% empty %}
-                <!-- This message shows if the user has no certifications -->
-                <li>No certifications on record.</li>
-            {% endfor %}
-        </ul>
-    </section>
+    <!-- Row 2: Main Content Grid -->
+    <div class="profile-main-grid">
+        
+        <!-- Certifications Column -->
+        <div class="certifications-section">
+            <h3 class="section-title">🏆 Professional Certifications</h3>
+            {% if user.certifications.all %}
+                <div class="certifications-compact">
+                    {% for cert in user.certifications.all %}
+                        <div class="cert-item">
+                            <span class="cert-name">{{ cert.name }}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="empty-state-compact">
+                    <p>No certifications on record</p>
+                </div>
+            {% endif %}
+        </div>
 
+        <!-- Assets Column -->
+        <div class="assets-section">
+            <h3 class="section-title">⚙️ Asset Responsibilities 
+                {% if user.assigned_assets.all %}
+                    <span class="count-badge">{{ user.assigned_assets.all|length }}</span>
+                {% endif %}
+            </h3>
+            {% if user.assigned_assets.all %}
+                <div class="assets-compact">
+                    {% for asset in user.assigned_assets.all|slice:":6" %}
+                        <div class="asset-item">
+                            <div class="asset-status-dot status-{{ asset.status }}"></div>
+                            <div class="asset-content">
+                                <a href="{% url 'asset_detail' asset.asset_tag %}" class="asset-link">{{ asset.asset_tag }}</a>
+                                <span class="asset-name">{{ asset.name }}</span>
+                                <div class="asset-meta-compact">
+                                    <span>{{ asset.asset_type.name }}</span>
+                                    {% if asset.is_maintenance_due %}
+                                        <span class="maintenance-due">⚠️ Due</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    {% if user.assigned_assets.all|length > 6 %}
+                        <div class="view-more">
+                            <a href="{% url 'user_assets' user.id %}" class="view-more-link">View all {{ user.assigned_assets.all|length }} assets →</a>
+                        </div>
+                    {% endif %}
+                </div>
+            {% else %}
+                <div class="empty-state-compact">
+                    <p>No assets assigned</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Activity Column -->
+        <div class="activity-section">
+            <h3 class="section-title">📊 Recent Activity</h3>
+            {% if recent_asset_logs %}
+                <div class="activity-compact">
+                    {% for log in recent_asset_logs|slice:":5" %}
+                        <div class="activity-item">
+                            <div class="activity-dot activity-{{ log.event_type }}"></div>
+                            <div class="activity-content">
+                                <div class="activity-header">
+                                    <a href="{% url 'asset_detail' log.asset.asset_tag %}" class="activity-asset">{{ log.asset.asset_tag }}</a>
+                                    <span class="activity-time">{{ log.timestamp|date:"M d" }}</span>
+                                </div>
+                                <p class="activity-description">{{ log.description|truncatewords:8 }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="empty-state-compact">
+                    <p>No recent activity</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- Quick Actions Row -->
+    <div class="profile-actions">
+        <a href="{% url 'user_assets' user.id %}" class="action-btn primary">View My Assets</a>
+        <a href="{% url 'asset_list' %}" class="action-btn secondary">Browse All Assets</a>
+        <a href="{% url 'asset_dashboard' %}" class="action-btn secondary">Asset Dashboard</a>
+    </div>
+    
 </div>
 {% endblock %}

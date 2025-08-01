@@ -31,7 +31,7 @@ INSTALLED_APPS = [
 
     # Our custom applications
     'users.apps.UsersConfig',
-    #'Assets.apps.AssetsConfig',
+    'assets.apps.AssetsConfig',
     #'Incidents.apps.IncidentsConfig',
 ]
 

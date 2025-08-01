@@ -1,0 +1,37 @@
+Of course. Here is all the data extracted from the asset's information plates, formatted for use in an incident management or asset tracking system.
+Asset Data Summary
+1. General & Manufacturer Information
+●	Manufacturer: FläktGroup Deutschland GmbH
+●	Model / Type: GLCU 2041 BC1
+●	Serial No. (Unit): B4622000
+●	Article No. / Item No.: 32123945
+●	Year of Manufacture: 2020
+●	Operating Weight: 910 kg
+Note on Serial Number: The top plate lists the Unit Serial No. as B4622000. The bottom (customer) label lists the Article No. (32123945) in its "Serial Number" field. It is important to clarify which number is used as the primary identifier in your system.
+2. Technical & Operational Specifications
+●	Compressor Type: MANEUROP
+●	Oil Type: 160SZ
+●	Refrigerant: R407C
+●	Refrigerant Charge (Circuit 1): 1.774 kg
+●	Refrigerant Charge (Circuit 2): 0 kg
+●	Global Warming Potential (GWP) of Refrigerant: 1774
+●	CO₂ Equivalent: 3.147 tCO₂e (Calculated as 1.774 kg * 1774 / 1000)
+●	Maximum Allowable Pressure (PS):
+○	High Pressure (HP): 2.80 MPa
+○	Low Pressure (LP): 2.80 MPa
+●	Maximum Operating Temperature: 45 °C
+●	Regulatory Note: Contains fluorinated greenhouse gases
+3. Electrical Data
+●	Voltage: 400V / 3-Phase / 50Hz +N+PE
+●	F.L.I. (Full Load Input current or power, acronym is unclear): 50.30
+●	F.L.A. (Full Load Amps): 88.00 A
+●	Power (kW): Field is blank
+4. Order & Customer Information
+●	Customer: RAXIO DATA CENTER LIMITED
+●	Customer Address: RWENZORI TOWERS, 37468 5TH FLOOR - WING A - NAKASERO UG, UG
+●	Customer Order No.: PU-787524
+●	Order Date: 13/02/2020
+5. Documentation & Certifications
+●	Wiring Diagrams: 6149185001_F rev. 01
+●	CE Mark Notified Body: 0945
+●	TÜV SÜD Certification: 2014/68/EU Annex III (Pressure Equipment Directive)

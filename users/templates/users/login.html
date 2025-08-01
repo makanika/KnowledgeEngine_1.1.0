@@ -18,15 +18,13 @@
         {% csrf_token %}
 
         <div class="form-field">
-            <label for="{{ form.username.id_for_label }}">Username</label>
-            <!-- Django will render the username input field here -->
-            {{ form.username }}
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required>
         </div>
 
         <div class="form-field">
-            <label for="{{ form.password.id_for_label }}">Password</label>
-            <!-- Django will render the password input field here -->
-            {{ form.password }}
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
         </div>
 
         <button type="submit" class="login-button">Login</button>

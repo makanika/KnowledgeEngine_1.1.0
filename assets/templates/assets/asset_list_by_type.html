@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ page_title }} - Knowledge Engine{% endblock %}
+
+{% block content %}
+<div class="asset-dashboard">
+    
+    <!-- Page Header -->
+    <div class="dashboard-header">
+        <h1 class="dashboard-title">{{ page_title }}</h1>
+        <p class="dashboard-subtitle">{{ asset_type.description|default:"Assets of this type in the datacenter" }}</p>
+    </div>
+
+    <!-- Quick Actions -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <div style="display: flex; gap: 1rem;">
+            <a href="{% url 'asset_add' %}" class="btn btn-primary">Add New {{ asset_type.name }}</a>
+            <a href="{% url 'asset_list' %}" class="btn btn-secondary">View All Assets</a>
+            <a href="{% url 'asset_dashboard' %}" class="btn btn-secondary">Dashboard</a>
+        </div>
+        <div style="font-family: 'Lora', serif; color: #6b7280;">
+            {{ assets|length }} {{ asset_type.name|lower }} asset{{ assets|length|pluralize }}
+        </div>
+    </div>
+
+    <!-- Asset Grid -->
+    {% if assets %}
+        <div class="asset-grid">
+            {% for asset in assets %}
+                <div class="asset-card">
+                    <div class="asset-card-header">
+                        <h3 class="asset-tag">{{ asset.asset_tag }}</h3>
+                        <p class="asset-name">{{ asset.name }}</p>
+                    </div>
+                    
+                    <div class="asset-card-body">
+                        <div class="asset-meta">
+                            <div class="asset-meta-item">
+                                <div class="asset-meta-label">Manufacturer</div>
+                                <p class="asset-meta-value">{{ asset.manufacturer.name }}</p>
+                            </div>
+                            <div class="asset-meta-item">
+                                <div class="asset-meta-label">Model</div>
+                                <p class="asset-meta-value">{{ asset.model_number|default:"Not specified" }}</p>
+                            </div>
+                            <div class="asset-meta-item">
+                                <div class="asset-meta-label">Location</div>
+                                <p class="asset-meta-value">{{ asset.location.name }}</p>
+                            </div>
+                            <div class="asset-meta-item">
+                                <div class="asset-meta-label">Assigned To</div>
+                                <p class="asset-meta-value">
+                                    {% if asset.assigned_to %}
+                                        {{ asset.assigned_to.full_name }}
+                                    {% else %}
+                                        <span style="color: #6b7280; font-style: italic;">Unassigned</span>
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- Key Specifications -->
+                        {% if asset.specifications.all %}
+                            <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #eaddd7;">
+                                <div style="font-family: 'Lato', sans-serif; font-weight: 700; color: #6b7280; font-size: 0.75rem; text-transform: uppercase; margin-bottom: 0.5rem;">Key Specifications</div>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; font-size: 0.85rem;">
+                                    {% for spec in asset.specifications.all|slice:":4" %}
+                                        <div style="display: flex; justify-content: space-between;">
+                                            <span style="color: #6b7280;">{{ spec.specification_name }}:</span>
+                                            <span style="font-family: 'Lora', serif; color: #4a4a4a;">{{ spec.specification_value }}{% if spec.unit %} {{ spec.unit }}{% endif %}</span>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="asset-card-footer">
+                        <div style="display: flex; gap: 0.5rem; align-items: center;">
+                            <span class="status-badge {{ asset.status }}">{{ asset.get_status_display }}</span>
+                            <span class="priority-badge {{ asset.priority }}">{{ asset.get_priority_display }}</span>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem;">
+                            {% if asset.is_maintenance_due %}
+                                <span class="maintenance-indicator due">
+                                    <span class="maintenance-dot"></span>
+                                    Due
+                                </span>
+                            {% elif asset.next_maintenance %}
+                                <span class="maintenance-indicator scheduled">
+                                    <span class="maintenance-dot"></span>
+                                    Scheduled
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <!-- Card Actions -->
+                    <div style="padding: 1rem 1.5rem; background-color: #ffffff; border-top: 1px solid #eaddd7;">
+                        <div style="display: flex; gap: 0.5rem;">
+                            <a href="{% url 'asset_detail' asset.asset_tag %}" class="btn btn-small btn-primary">View Details</a>
+                            <a href="{% url 'asset_edit' asset.asset_tag %}" class="btn btn-small btn-secondary">Edit</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="sidebar-card" style="text-align: center; padding: 3rem;">
+            <h3 style="font-family: 'Lato', sans-serif; font-weight: 900; color: #6b7280; margin-bottom: 1rem;">No {{ asset_type.name }} Assets Found</h3>
+            <p style="font-family: 'Lora', serif; color: #6b7280; margin-bottom: 2rem;">
+                No {{ asset_type.name|lower }} assets have been added to the system yet.
+            </p>
+            <div style="display: flex; gap: 1rem; justify-content: center;">
+                <a href="{% url 'asset_add' %}" class="btn btn-primary">Add First {{ asset_type.name }}</a>
+                <a href="{% url 'asset_list' %}" class="btn btn-secondary">View All Assets</a>
+            </div>
+        </div>
+    {% endif %}
+
+</div>
+{% endblock %}

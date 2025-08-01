@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ page_title }} - Knowledge Engine{% endblock %}
+
+{% block content %}
+<!-- Help Modal -->
+<div id="helpModal" class="help-modal" style="display: none;">
+    <div class="help-modal-content">
+        <div class="help-modal-header">
+            <h3>🔧 Maintenance Scheduling Help</h3>
+            <button onclick="closeHelp()" class="help-close">&times;</button>
+        </div>
+        <div class="help-modal-body">
+            <div class="help-section">
+                <h4>📅 Scheduling Maintenance</h4>
+                <p>Use this form to schedule preventive or corrective maintenance for datacenter assets:</p>
+                <ul>
+                    <li><strong>Asset Selection</strong> - Choose the asset that needs maintenance</li>
+                    <li><strong>Maintenance Type</strong> - Select appropriate maintenance category</li>
+                    <li><strong>Scheduled Date</strong> - When the maintenance should be performed</li>
+                    <li><strong>Duration</strong> - Estimated time needed (format: HH:MM:SS)</li>
+                </ul>
+            </div>
+            <div class="help-section">
+                <h4>⚙️ Maintenance Types</h4>
+                <ul>
+                    <li><strong>Preventive</strong> - Regular scheduled maintenance to prevent issues</li>
+                    <li><strong>Corrective</strong> - Repair work to fix identified problems</li>
+                    <li><strong>Emergency</strong> - Urgent repairs for critical failures</li>
+                    <li><strong>Upgrade</strong> - Hardware or software improvements</li>
+                    <li><strong>Inspection</strong> - Regular checks and assessments</li>
+                </ul>
+            </div>
+            <div class="help-section">
+                <h4>📝 Best Practices</h4>
+                <ul>
+                    <li>Schedule maintenance during low-usage periods</li>
+                    <li>Provide detailed descriptions for technicians</li>
+                    <li>Include estimated costs for budget planning</li>
+                    <li>Consider asset criticality when scheduling</li>
+                    <li>Coordinate with asset owners and users</li>
+                </ul>
+            </div>
+            <div class="help-section">
+                <h4>⏰ Duration Format</h4>
+                <p>Enter duration in HH:MM:SS format:</p>
+                <ul>
+                    <li><code>1:00:00</code> - 1 hour</li>
+                    <li><code>2:30:00</code> - 2 hours 30 minutes</li>
+                    <li><code>0:45:00</code> - 45 minutes</li>
+                    <li><code>4:15:30</code> - 4 hours 15 minutes 30 seconds</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="maintenance-form-compact">
+
+    <!-- Header -->
+    <div class="maintenance-form-header">
+        <div class="form-title-section">
+            <h1 class="form-title">🔧 {{ page_title }}</h1>
+            <p class="form-subtitle">Schedule maintenance work for datacenter assets</p>
+        </div>
+        <div class="form-actions-header">
+            <button type="button" onclick="showHelp()" class="help-btn">📖 Help</button>
+        </div>
+    </div>
+
+    <!-- Form Container -->
+    <div class="maintenance-form-container">
+        <form method="post" class="maintenance-form">
+            {% csrf_token %}
+                
+            <!-- Asset Selection -->
+            <div class="form-section">
+                <h3 class="section-title">⚙️ Asset & Type</h3>
+                <div class="form-grid">
+                    <div class="form-field">
+                        <label for="{{ form.asset.id_for_label }}">Asset *</label>
+                        {{ form.asset }}
+                        {% if form.asset.errors %}
+                            <div class="field-error">{{ form.asset.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="form-field">
+                        <label for="{{ form.maintenance_type.id_for_label }}">Maintenance Type *</label>
+                        {{ form.maintenance_type }}
+                        {% if form.maintenance_type.errors %}
+                            <div class="field-error">{{ form.maintenance_type.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scheduling -->
+            <div class="form-section">
+                <h3 class="section-title">📅 Scheduling</h3>
+                <div class="form-grid">
+                    <div class="form-field">
+                        <label for="{{ form.scheduled_date.id_for_label }}">Scheduled Date *</label>
+                        {{ form.scheduled_date }}
+                        {% if form.scheduled_date.errors %}
+                            <div class="field-error">{{ form.scheduled_date.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="form-field">
+                        <label for="{{ form.estimated_duration.id_for_label }}">Estimated Duration</label>
+                        {{ form.estimated_duration }}
+                        <div class="field-help">Format: HH:MM:SS (e.g., 2:30:00)</div>
+                        {% if form.estimated_duration.errors %}
+                            <div class="field-error">{{ form.estimated_duration.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Work Details -->
+            <div class="form-section">
+                <h3 class="section-title">📝 Work Details</h3>
+                <div class="form-field">
+                    <label for="{{ form.description.id_for_label }}">Description *</label>
+                    {{ form.description }}
+                    {% if form.description.errors %}
+                        <div class="field-error">{{ form.description.errors.0 }}</div>
+                    {% endif %}
+                </div>
+                <div class="form-field">
+                    <label for="{{ form.cost.id_for_label }}">Estimated Cost</label>
+                    {{ form.cost }}
+                    <div class="field-help">Enter cost in your local currency</div>
+                    {% if form.cost.errors %}
+                        <div class="field-error">{{ form.cost.errors.0 }}</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Form Errors -->
+            {% if form.non_field_errors %}
+                <div class="form-errors">
+                    {% for error in form.non_field_errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <!-- Form Actions -->
+            <div class="form-actions">
+                <a href="{% url 'asset_dashboard' %}" class="action-btn secondary">Cancel</a>
+                <button type="submit" class="action-btn primary">Schedule Maintenance</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+function showHelp() {
+    document.getElementById('helpModal').style.display = 'block';
+}
+
+function closeHelp() {
+    document.getElementById('helpModal').style.display = 'none';
+}
+
+// Close modal when clicking outside
+window.onclick = function(event) {
+    const modal = document.getElementById('helpModal');
+    if (event.target === modal) {
+        modal.style.display = 'none';
+    }
+}
+</script>
+{% endblock %}

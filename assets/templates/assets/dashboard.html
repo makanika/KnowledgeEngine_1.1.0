@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Asset Dashboard - Knowledge Engine{% endblock %}
+
+{% block content %}
+<div class="asset-dashboard-compact">
+
+    <!-- Top Row: Stats and Quick Actions -->
+    <div class="dashboard-top-row">
+        <!-- Statistics Cards -->
+        <div class="stats-grid-compact">
+            <div class="stat-card-compact">
+                <h3>Total</h3>
+                <p class="stat-number total">{{ total_assets }}</p>
+            </div>
+            <div class="stat-card-compact">
+                <h3>Active</h3>
+                <p class="stat-number active">{{ active_assets }}</p>
+            </div>
+            <div class="stat-card-compact">
+                <h3>Maintenance</h3>
+                <p class="stat-number maintenance">{{ maintenance_assets }}</p>
+            </div>
+            <div class="stat-card-compact">
+                <h3>Faulty</h3>
+                <p class="stat-number faulty">{{ faulty_assets }}</p>
+            </div>
+        </div>
+        
+        <!-- Quick Actions -->
+        <div class="quick-actions-compact">
+            <a href="{% url 'asset_list' %}" class="action-btn primary">View All Assets</a>
+            <a href="{% url 'asset_add' %}" class="action-btn secondary">Add Asset</a>
+            <a href="{% url 'maintenance_schedule' %}" class="action-btn secondary">Maintenance</a>
+        </div>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="dashboard-main-grid">
+        
+        <!-- Assets by Type -->
+        <div class="dashboard-section">
+            <h4 class="section-title-compact">📊 Assets by Type</h4>
+            {% if assets_by_type %}
+                <div class="type-list-compact">
+                    {% for asset_type in assets_by_type %}
+                        <div class="type-item">
+                            <span class="type-name">{{ asset_type.name }}</span>
+                            <span class="type-count">{{ asset_type.asset_count }}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="empty-state-compact">
+                    <p>No assets found</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Maintenance Due -->
+        <div class="dashboard-section">
+            <h4 class="section-title-compact">⚠️ Maintenance Due</h4>
+            {% if maintenance_due %}
+                <div class="maintenance-list-compact">
+                    {% for asset in maintenance_due|slice:":4" %}
+                        <div class="maintenance-item">
+                            <div class="maintenance-header">
+                                <a href="{% url 'asset_detail' asset.asset_tag %}" class="asset-link">{{ asset.asset_tag }}</a>
+                                <span class="maintenance-due-badge">Due</span>
+                            </div>
+                            <p class="maintenance-name">{{ asset.name }}</p>
+                            {% if asset.next_maintenance %}
+                                <p class="maintenance-date">{{ asset.next_maintenance|date:"M d" }}</p>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                    {% if maintenance_due|length > 4 %}
+                        <div class="view-more">
+                            <a href="{% url 'asset_list' %}?maintenance_due=true" class="view-more-link">View all {{ maintenance_due|length }} due →</a>
+                        </div>
+                    {% endif %}
+                </div>
+            {% else %}
+                <div class="empty-state-compact">
+                    <p>No maintenance due</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="dashboard-section">
+            <h4 class="section-title-compact">📝 Recent Activity</h4>
+            {% if recent_logs %}
+                <div class="activity-list-compact">
+                    {% for log in recent_logs|slice:":4" %}
+                        <div class="activity-item-compact">
+                            <div class="activity-dot activity-{{ log.event_type }}"></div>
+                            <div class="activity-content-compact">
+                                <div class="activity-header-compact">
+                                    <a href="{% url 'asset_detail' log.asset.asset_tag %}" class="activity-asset">{{ log.asset.asset_tag }}</a>
+                                    <span class="activity-time">{{ log.timestamp|date:"M d" }}</span>
+                                </div>
+                                <p class="activity-description">{{ log.description|truncatewords:6 }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="empty-state-compact">
+                    <p>No recent activity</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+</div>
+{% endblock %}

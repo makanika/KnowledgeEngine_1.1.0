@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Engine - Asset Management Documentation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: #f8f7f4;
+            color: #4a4a4a;
+        }
+        .content-pane {
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .doc-content {
+            font-family: 'Lora', serif;
+        }
+        .doc-content h2 {
+            font-family: 'Lato', sans-serif;
+            font-weight: 900;
+            font-size: 1.75rem;
+            letter-spacing: -0.025em;
+            color: #1f2937;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 0.5rem;
+        }
+        .doc-content h3 {
+            font-family: 'Lato', sans-serif;
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #3a5a40;
+        }
+        .doc-content p {
+            font-size: 1rem;
+            line-height: 1.75;
+            margin-bottom: 1rem;
+        }
+        .doc-content strong {
+            font-weight: 700;
+            color: #1f2937;
+        }
+        .doc-content code {
+            background-color: #eaddd7;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9em;
+        }
+        .doc-content pre {
+            background-color: #1f2937;
+            color: #f3f4f6;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            font-size: 0.875rem;
+        }
+        .doc-content pre code {
+            background-color: transparent;
+            padding: 0;
+            color: inherit;
+        }
+        .view-tab {
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            font-weight: 700;
+            font-size: 1rem;
+            color: #6b7280;
+        }
+        .view-tab.active {
+            border-color: #3a5a40;
+            color: #3a5a40;
+        }
+        .field-table th {
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            color: #6b7280;
+            background-color: #f8f7f4;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.375rem;
+            font-family: 'Lato', sans-serif;
+            font-weight: 700;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .status-badge.active { background-color: #dcfce7; color: #166534; }
+        .status-badge.maintenance { background-color: #fed7aa; color: #ea580c; }
+        .status-badge.faulty { background-color: #fee2e2; color: #dc2626; }
+    </style>
+</head>
+<body class="p-4 sm:p-6 md:p-8">
+
+    <div class="max-w-5xl mx-auto">
+        <header class="flex flex-col sm:flex-row justify-between items-center mb-6 pb-4 border-b">
+            <div>
+                <h1 class="text-3xl font-black text-[#3a3a3a]" style="font-family: 'Lato', sans-serif;">Knowledge Engine</h1>
+                <p class="text-md text-gray-500">Asset Management System Documentation</p>
+            </div>
+            <div class="flex items-center space-x-4 mt-3 sm:mt-0">
+                <div class="text-right">
+                    <p class="font-bold text-sm">Asset Management Team</p>
+                    <p class="text-xs text-gray-500">Datacenter Operations</p>
+                </div>
+                <div class="w-10 h-10 bg-[#eaddd7] rounded-full flex items-center justify-center font-bold text-[#3a3a3a] text-sm flex-shrink-0">AM</div>
+            </div>
+        </header>
+
+        <main class="content-pane">
+            <div class="border-b border-gray-200">
+                <nav class="-mb-px flex space-x-4">
+                    <a class="view-tab active" data-target="overview">System Overview</a>
+                    <a class="view-tab" data-target="data-models">Data Models</a>
+                    <a class="view-tab" data-target="user-interface">User Interface</a>
+                    <a class="view-tab" data-target="workflows">Workflows</a>
+                </nav>
+            </div>
+            
+            <div id="overview" class="tab-content p-6 sm:p-8">
+                <div class="doc-content">
+                    <h2>Asset Management System Overview</h2>
+                    <p>The Knowledge Engine Asset Management System provides comprehensive tracking and management of datacenter infrastructure. Built with Django and designed for operational excellence, it integrates seamlessly with the existing user management system to provide role-based access control and audit trails.</p>
+                    
+                    <h3>Core Capabilities</h3>
+                    <ul class="list-disc list-inside space-y-2 mb-6">
+                        <li><strong>Asset Inventory Management</strong> – Complete lifecycle tracking from procurement to decommission</li>
+                        <li><strong>Maintenance Scheduling</strong> – Preventive and corrective maintenance workflows</li>
+                        <li><strong>Technical Specifications</strong> – Flexible specification storage for different asset types</li>
+                        <li><strong>Status Monitoring</strong> – Real-time status tracking with visual indicators</li>
+                        <li><strong>Audit Trails</strong> – Complete change history and activity logging</li>
+                        <li><strong>User Integration</strong> – Asset assignment and responsibility tracking</li>
+                    </ul>
+
+                    <h3>Supported Asset Types</h3>
+                    <p>The system is specifically designed for datacenter infrastructure management, supporting:</p>
+                    <div class="grid grid-cols-2 gap-4 my-6">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h4 class="font-bold text-[#3a5a40] mb-2">Power Systems</h4>
+                            <ul class="text-sm space-y-1">
+                                <li>• UPS Systems (600kVA, 10kVA)</li>
+                                <li>• Generators (Diesel, Gas)</li>
+                                <li>• Power Distribution Units</li>
+                            </ul>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h4 class="font-bold text-[#3a5a40] mb-2">Cooling Systems</h4>
+                            <ul class="text-sm space-y-1">
+                                <li>• In-Row Air Conditioning (IAC)</li>
+                                <li>• Air Handling Units (AHU)</li>
+                                <li>• Chilled Water Systems</li>
+                            </ul>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h4 class="font-bold text-[#3a5a40] mb-2">Security & Safety</h4>
+                            <ul class="text-sm space-y-1">
+                                <li>• Camera Systems & NVR</li>
+                                <li>• Fire Detection Systems</li>
+                                <li>• Kidde Control Panels</li>
+                            </ul>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h4 class="font-bold text-[#3a5a40] mb-2">Infrastructure</h4>
+                            <ul class="text-sm space-y-1">
+                                <li>• Water Tanks & GRP Tanks</li>
+                                <li>• Pumps & Circulation Systems</li>
+                                <li>• Building Management Systems</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>Integration Points</h3>
+                    <p>The Asset Management System integrates with:</p>
+                    <ul class="list-disc list-inside space-y-1 mb-6">
+                        <li><strong>User Management</strong> – Asset assignment and responsibility tracking</li>
+                        <li><strong>Incident Management</strong> – Asset-related incident tracking (future)</li>
+                        <li><strong>Change Management</strong> – Asset configuration changes (future)</li>
+                        <li><strong>ITIL Processes</strong> – Service management integration (future)</li>
+                    </ul>
+
+                    <h3>Key Features</h3>
+                    <div class="bg-blue-50 border-l-4 border-blue-400 p-4 my-6">
+                        <h4 class="font-bold text-blue-800 mb-2">Real-time Dashboard</h4>
+                        <p class="text-blue-700">Live overview of asset status, maintenance due dates, and system health indicators with color-coded status badges.</p>
+                    </div>
+                    <div class="bg-green-50 border-l-4 border-green-400 p-4 my-6">
+                        <h4 class="font-bold text-green-800 mb-2">Maintenance Management</h4>
+                        <p class="text-green-700">Comprehensive maintenance scheduling with preventive, corrective, and emergency maintenance workflows.</p>
+                    </div>
+                    <div class="bg-purple-50 border-l-4 border-purple-400 p-4 my-6">
+                        <h4 class="font-bold text-purple-800 mb-2">Advanced Filtering</h4>
+                        <p class="text-purple-700">Multi-criteria filtering by status, type, location, and assignment with real-time search capabilities.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="data-models" class="tab-content hidden p-6 sm:p-8">
+                <div class="doc-content">
+                    <h2>Data Architecture & Models</h2>
+                    <p>The Asset Management System uses a normalized database design with clear relationships and comprehensive audit trails. All models follow Django best practices and include proper validation.</p>
+                    
+                    <h3>Core Models Overview</h3>
+                    <pre><code>Asset Management Models:
+├── AssetType (UPS, Generator, IAC, etc.)
+├── Manufacturer (APC, Caterpillar, Schneider, etc.)
+├── Asset (Main asset entity)
+├── AssetSpecification (Technical specs)
+├── AssetLog (Change history)
+└── MaintenanceRecord (Maintenance tracking)</code></pre>
+
+                    <h3>Asset Model</h3>
+                    <p>The central <code>Asset</code> model captures all essential information about datacenter equipment:</p>
+                    <div class="overflow-x-auto my-6">
+                        <table class="w-full text-sm border field-table">
+                            <thead><tr class="bg-gray-100"><th class="p-2">Field</th><th class="p-2">Type</th><th class="p-2">Description</th></tr></thead>
+                            <tbody class="divide-y">
+                                <tr><td class="p-2 font-medium">asset_tag</td><td class="p-2">CharField</td><td class="p-2">Unique identifier (e.g., UPS-001)</td></tr>
+                                <tr><td class="p-2 font-medium">name</td><td class="p-2">CharField</td><td class="p-2">Human-readable asset name</td></tr>
+                                <tr><td class="p-2 font-medium">asset_type</td><td class="p-2">ForeignKey</td><td class="p-2">Link to AssetType model</td></tr>
+                                <tr><td class="p-2 font-medium">manufacturer</td><td class="p-2">ForeignKey</td><td class="p-2">Link to Manufacturer model</td></tr>
+                                <tr><td class="p-2 font-medium">serial_number</td><td class="p-2">CharField</td><td class="p-2">Manufacturer serial number</td></tr>
+                                <tr><td class="p-2 font-medium">status</td><td class="p-2">CharField</td><td class="p-2">Operational status (active, maintenance, faulty)</td></tr>
+                                <tr><td class="p-2 font-medium">priority</td><td class="p-2">CharField</td><td class="p-2">Business priority (critical, high, medium, low)</td></tr>
+                                <tr><td class="p-2 font-medium">location</td><td class="p-2">ForeignKey</td><td class="p-2">Physical location reference</td></tr>
+                                <tr><td class="p-2 font-medium">assigned_to</td><td class="p-2">ForeignKey</td><td class="p-2">Responsible employee</td></tr>
+                                <tr><td class="p-2 font-medium">warranty_expiry</td><td class="p-2">DateField</td><td class="p-2">Warranty expiration date</td></tr>
+                                <tr><td class="p-2 font-medium">next_maintenance</td><td class="p-2">DateField</td><td class="p-2">Scheduled maintenance date</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>Status Management</h3>
+                    <p>Assets can have the following operational statuses:</p>
+                    <div class="grid grid-cols-2 gap-4 my-6">
+                        <div class="flex items-center space-x-2">
+                            <span class="status-badge active">Active</span>
+                            <span>Operational and in service</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="status-badge maintenance">Maintenance</span>
+                            <span>Under scheduled maintenance</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="status-badge faulty">Faulty</span>
+                            <span>Requires immediate attention</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="status-badge" style="background-color: #dbeafe; color: #2563eb;">Standby</span>
+                            <span>Ready but not in active use</span>
+                        </div>
+                    </div>
+
+                    <h3>AssetSpecification Model</h3>
+                    <p>Flexible storage for technical specifications that vary by asset type:</p>
+                    <pre><code>class AssetSpecification(models.Model):
+    asset = models.ForeignKey(Asset, related_name='specifications')
+    specification_name = models.CharField(max_length=100)
+    specification_value = models.CharField(max_length=255)
+    unit = models.CharField(max_length=50, blank=True)
+    
+    class Meta:
+        unique_together = ['asset', 'specification_name']</code></pre>
+
+                    <h3>MaintenanceRecord Model</h3>
+                    <p>Comprehensive maintenance tracking with scheduling and execution details:</p>
+                    <div class="overflow-x-auto my-6">
+                        <table class="w-full text-sm border field-table">
+                            <thead><tr class="bg-gray-100"><th class="p-2">Field</th><th class="p-2">Type</th><th class="p-2">Description</th></tr></thead>
+                            <tbody class="divide-y">
+                                <tr><td class="p-2 font-medium">maintenance_type</td><td class="p-2">CharField</td><td class="p-2">Preventive, Corrective, Emergency</td></tr>
+                                <tr><td class="p-2 font-medium">scheduled_date</td><td class="p-2">DateField</td><td class="p-2">When maintenance is planned</td></tr>
+                                <tr><td class="p-2 font-medium">performed_date</td><td class="p-2">DateField</td><td class="p-2">When maintenance was completed</td></tr>
+                                <tr><td class="p-2 font-medium">scheduled_by</td><td class="p-2">ForeignKey</td><td class="p-2">User who scheduled the work</td></tr>
+                                <tr><td class="p-2 font-medium">performed_by</td><td class="p-2">ForeignKey</td><td class="p-2">User who performed the work</td></tr>
+                                <tr><td class="p-2 font-medium">work_performed</td><td class="p-2">TextField</td><td class="p-2">Detailed work description</td></tr>
+                                <tr><td class="p-2 font-medium">parts_used</td><td class="p-2">TextField</td><td class="p-2">Parts and materials used</td></tr>
+                                <tr><td class="p-2 font-medium">cost</td><td class="p-2">DecimalField</td><td class="p-2">Maintenance cost tracking</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>AssetLog Model</h3>
+                    <p>Complete audit trail for all asset changes and events:</p>
+                    <pre><code>EVENT_TYPES = [
+    ('created', 'Asset Created'),
+    ('updated', 'Asset Updated'),
+    ('status_change', 'Status Changed'),
+    ('assignment_change', 'Assignment Changed'),
+    ('maintenance_scheduled', 'Maintenance Scheduled'),
+    ('maintenance_completed', 'Maintenance Completed'),
+    ('incident_reported', 'Incident Reported'),
+]</code></pre>
+                </div>
+            </div>
+
+            <div id="user-interface" class="tab-content hidden p-6 sm:p-8">
+                <div class="doc-content">
+                    <h2>User Interface Design</h2>
+                    <p>The Asset Management interface follows the Knowledge Engine design system, maintaining consistency with the existing user management interface while providing specialized functionality for asset operations.</p>
+
+                    <h3>Design Principles</h3>
+                    <ul class="list-disc list-inside space-y-2 mb-6">
+                        <li><strong>Consistency</strong> – Matches existing Knowledge Engine visual language</li>
+                        <li><strong>Clarity</strong> – Clear visual hierarchy and status indicators</li>
+                        <li><strong>Efficiency</strong> – Streamlined workflows for common operations</li>
+                        <li><strong>Accessibility</strong> – Responsive design for all devices</li>
+                    </ul>
+
+                    <h3>Color Scheme & Typography</h3>
+                    <div class="grid grid-cols-2 gap-6 my-6">
+                        <div>
+                            <h4 class="font-bold mb-3">Typography</h4>
+                            <div class="space-y-2">
+                                <div class="flex items-center space-x-3">
+                                    <span class="font-black text-lg" style="font-family: 'Lato', sans-serif;">Lato 900</span>
+                                    <span class="text-sm text-gray-600">Headings & Labels</span>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <span class="font-bold" style="font-family: 'Lato', sans-serif;">Lato 700</span>
+                                    <span class="text-sm text-gray-600">Subheadings</span>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <span style="font-family: 'Lora', serif;">Lora Regular</span>
+                                    <span class="text-sm text-gray-600">Body Text</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-bold mb-3">Color Palette</h4>
+                            <div class="space-y-2">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-6 h-6 rounded" style="background-color: #3a5a40;"></div>
+                                    <span class="text-sm">#3a5a40 - Primary Green</span>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-6 h-6 rounded" style="background-color: #f8f7f4;"></div>
+                                    <span class="text-sm">#f8f7f4 - Background</span>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-6 h-6 rounded" style="background-color: #eaddd7;"></div>
+                                    <span class="text-sm">#eaddd7 - Borders</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>Key Interface Components</h3>
+                    
+                    <h4 class="text-lg font-bold text-[#3a5a40] mt-6 mb-3">Asset Dashboard</h4>
+                    <p>The main dashboard provides real-time overview with:</p>
+                    <ul class="list-disc list-inside space-y-1 mb-4">
+                        <li>Statistics cards showing total, active, maintenance, and faulty assets</li>
+                        <li>Asset breakdown by type with clickable navigation</li>
+                        <li>Maintenance due alerts with priority indicators</li>
+                        <li>Recent activity feed with user attribution</li>
+                    </ul>
+
+                    <h4 class="text-lg font-bold text-[#3a5a40] mt-6 mb-3">Asset List View</h4>
+                    <p>Comprehensive asset listing with:</p>
+                    <ul class="list-disc list-inside space-y-1 mb-4">
+                        <li>Advanced filtering by status, type, location, and assignment</li>
+                        <li>Real-time search across asset tags, names, and descriptions</li>
+                        <li>Card-based layout with key information at a glance</li>
+                        <li>Status badges and maintenance indicators</li>
+                    </ul>
+
+                    <h4 class="text-lg font-bold text-[#3a5a40] mt-6 mb-3">Asset Detail View</h4>
+                    <p>Detailed asset information including:</p>
+                    <ul class="list-disc list-inside space-y-1 mb-4">
+                        <li>Complete asset specifications in tabular format</li>
+                        <li>Maintenance history with work details</li>
+                        <li>Activity timeline with change tracking</li>
+                        <li>Quick action sidebar for common operations</li>
+                    </ul>
+
+                    <h3>Status Indicators</h3>
+                    <p>Visual status system provides immediate operational awareness:</p>
+                    <div class="bg-gray-50 p-4 rounded-lg my-6">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <h5 class="font-bold mb-2">Asset Status</h5>
+                                <div class="space-y-2">
+                                    <div class="flex items-center space-x-2">
+                                        <span class="status-badge active">Active</span>
+                                        <span class="text-sm">Green - Operational</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <span class="status-badge maintenance">Maintenance</span>
+                                        <span class="text-sm">Orange - Under Service</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <span class="status-badge faulty">Faulty</span>
+                                        <span class="text-sm">Red - Needs Attention</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <h5 class="font-bold mb-2">Maintenance Status</h5>
+                                <div class="space-y-2">
+                                    <div class="flex items-center space-x-2">
+                                        <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                                        <span class="text-sm">Scheduled - On Track</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <span class="w-2 h-2 bg-red-500 rounded-full"></span>
+                                        <span class="text-sm">Due - Action Required</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <span class="w-2 h-2 bg-red-700 rounded-full"></span>
+                                        <span class="text-sm">Overdue - Critical</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>Responsive Design</h3>
+                    <p>The interface adapts seamlessly across devices:</p>
+                    <ul class="list-disc list-inside space-y-1 mb-4">
+                        <li><strong>Desktop</strong> – Full grid layouts with sidebar navigation</li>
+                        <li><strong>Tablet</strong> – Responsive grids with touch-friendly controls</li>
+                        <li><strong>Mobile</strong> – Single-column layouts with collapsible sections</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="workflows" class="tab-content hidden p-6 sm:p-8">
+                <div class="doc-content">
+                    <h2>Operational Workflows</h2>
+                    <p>The Asset Management System supports key datacenter operational workflows, integrating with ITIL best practices and organizational procedures.</p>
+
+                    <h3>Asset Lifecycle Management</h3>
+                    <div class="bg-blue-50 border-l-4 border-blue-400 p-4 my-6">
+                        <h4 class="font-bold text-blue-800 mb-2">1. Asset Procurement & Registration</h4>
+                        <ol class="list-decimal list-inside text-blue-700 space-y-1">
+                            <li>Create new asset record with basic information</li>
+                            <li>Assign unique asset tag following naming convention</li>
+                            <li>Record manufacturer details and warranty information</li>
+                            <li>Add technical specifications and documentation</li>
+                            <li>Assign to responsible team member</li>
+                        </ol>
+                    </div>
+
+                    <div class="bg-green-50 border-l-4 border-green-400 p-4 my-6">
+                        <h4 class="font-bold text-green-800 mb-2">2. Installation & Commissioning</h4>
+                        <ol class="list-decimal list-inside text-green-700 space-y-1">
+                            <li>Update asset status to "Under Installation"</li>
+                            <li>Record installation date and location</li>
+                            <li>Perform commissioning tests and validation</li>
+                            <li>Update status to "Active" upon successful commissioning</li>
+                            <li>Schedule initial preventive maintenance</li>
+                        </ol>
+                    </div>
+
+                    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 my-6">
+                        <h4 class="font-bold text-yellow-800 mb-2">3. Operational Maintenance</h4>
+                        <ol class="list-decimal list-inside text-yellow-700 space-y-1">
+                            <li>System automatically flags maintenance due dates</li>
+                            <li>Maintenance team schedules work orders</li>
+                            <li>Asset status updated to "Under Maintenance"</li>
+                            <li>Work performed and parts used are documented</li>
+                            <li>Next maintenance date scheduled upon completion</li>
+                        </ol>
+                    </div>
+
+                    <h3>Maintenance Workflows</h3>
+                    <p>Comprehensive maintenance management supporting different maintenance types:</p>
+
+                    <h4 class="text-lg font-bold text-[#3a5a40] mt-6 mb-3">Preventive Maintenance</h4>
+                    <pre><code>Preventive Maintenance Workflow:
+1. System identifies assets due for maintenance
+2. Maintenance planner schedules work order
+3. Technician receives assignment notification
+4. Asset status updated to "Under Maintenance"
+5. Work performed according to procedures
+6. Documentation completed with parts/costs
+7. Asset returned to "Active" status
+8. Next maintenance date calculated and scheduled</code></pre>
+
+                    <h4 class="text-lg font-bold text-[#3a5a40] mt-6 mb-3">Corrective Maintenance</h4>
+                    <pre><code>Corrective Maintenance Workflow:
+1. Issue identified through monitoring or incident
+2. Asset status updated to "Faulty"
+3. Emergency work order created
+4. Technician dispatched for diagnosis
+5. Repair work performed with documentation
+6. Testing and validation completed
+7. Asset returned to operational status
+8. Root cause analysis and prevention measures</code></pre>
+
+                    <h3>Integration with ITIL Processes</h3>
+                    <p>The Asset Management System is designed to integrate with ITIL service management processes:</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-6">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h4 class="font-bold text-[#3a5a40] mb-2">Incident Management</h4>
+                            <ul class="text-sm space-y-1">
+                                <li>• Asset-related incidents automatically linked</li>
+                                <li>• Impact assessment based on asset criticality</li>
+                                <li>• Asset status updated during incident resolution</li>
+                            </ul>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h4 class="font-bold text-[#3a5a40] mb-2">Change Management</h4>
+                            <ul class="text-sm space-y-1">
+                                <li>• Configuration changes tracked in asset logs</li>
+                                <li>• Change approval workflow integration</li>
+                                <li>• Rollback procedures documented</li>
+                            </ul>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h4 class="font-bold text-[#3a5a40] mb-2">Problem Management</h4>
+                            <ul class="text-sm space-y-1">
+                                <li>• Recurring asset issues identified</li>
+                                <li>• Root cause analysis documentation</li>
+                                <li>• Known error database integration</li>
+                            </ul>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h4 class="font-bold text-[#3a5a40] mb-2">Service Level Management</h4>
+                            <ul class="text-sm space-y-1">
+                                <li>• Asset availability tracking</li>
+                                <li>• Performance metrics collection</li>
+                                <li>• SLA compliance reporting</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>User Roles & Permissions</h3>
+                    <p>Role-based access control ensures appropriate system access:</p>
+                    <div class="overflow-x-auto my-6">
+                        <table class="w-full text-sm border field-table">
+                            <thead><tr class="bg-gray-100"><th class="p-2">Role</th><th class="p-2">Permissions</th><th class="p-2">Typical Users</th></tr></thead>
+                            <tbody class="divide-y">
+                                <tr><td class="p-2 font-medium">Asset Administrator</td><td class="p-2">Full CRUD access, system configuration</td><td class="p-2">IT Managers, Asset Managers</td></tr>
+                                <tr><td class="p-2 font-medium">Maintenance Planner</td><td class="p-2">Schedule maintenance, update work orders</td><td class="p-2">Maintenance Supervisors</td></tr>
+                                <tr><td class="p-2 font-medium">Technician</td><td class="p-2">Update asset status, record maintenance</td><td class="p-2">Field Technicians, Engineers</td></tr>
+                                <tr><td class="p-2 font-medium">Operator</td><td class="p-2">View assets, basic status updates</td><td class="p-2">Control Room Operators</td></tr>
+                                <tr><td class="p-2 font-medium">Viewer</td><td class="p-2">Read-only access to asset information</td><td class="p-2">Management, Auditors</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>Reporting & Analytics</h3>
+                    <p>Built-in reporting capabilities support operational decision-making:</p>
+                    <ul class="list-disc list-inside space-y-2 mb-6">
+                        <li><strong>Asset Utilization Reports</strong> – Track asset deployment and usage patterns</li>
+                        <li><strong>Maintenance Cost Analysis</strong> – Monitor maintenance expenses and trends</li>
+                        <li><strong>Reliability Metrics</strong> – Calculate MTBF, MTTR, and availability statistics</li>
+                        <li><strong>Compliance Reports</strong> – Ensure regulatory and audit compliance</li>
+                        <li><strong>Warranty Tracking</strong> – Monitor warranty status and upcoming expirations</li>
+                    </ul>
+                </div>
+            </div>
+        </main>
+    </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const tabs = document.querySelectorAll('.view-tab');
+        const panes = document.querySelectorAll('.tab-content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                const targetId = this.dataset.target;
+
+                tabs.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+
+                panes.forEach(pane => {
+                    if (pane.id === targetId) {
+                        pane.classList.remove('hidden');
+                    } else {
+                        pane.classList.add('hidden');
+                    }
+                });
+            });
+        });
+    });
+</script>
+</body>
+</html>

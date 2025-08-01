@@ -1,0 +1,265 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ page_title }} - Knowledge Engine{% endblock %}
+
+{% block content %}
+<div class="asset-form-compact">
+
+    <!-- Form Container -->
+    <div style="max-width: 800px; margin: 0 auto;">
+        <div class="sidebar-card">
+            <form method="post" style="display: flex; flex-direction: column; gap: 2rem;">
+                {% csrf_token %}
+                
+                <!-- Basic Information Section -->
+                <div>
+                    <h4 style="margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid #eaddd7;">Basic Information</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                        <div class="filter-group">
+                            <label for="{{ form.asset_tag.id_for_label }}">Asset Tag *</label>
+                            {{ form.asset_tag }}
+                            {% if form.asset_tag.errors %}
+                                <div style="color: #dc2626; font-size: 0.8rem; margin-top: 0.25rem;">
+                                    {{ form.asset_tag.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="filter-group">
+                            <label for="{{ form.name.id_for_label }}">Asset Name *</label>
+                            {{ form.name }}
+                            {% if form.name.errors %}
+                                <div style="color: #dc2626; font-size: 0.8rem; margin-top: 0.25rem;">
+                                    {{ form.name.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="filter-group" style="margin-top: 1.5rem;">
+                        <label for="{{ form.description.id_for_label }}">Description</label>
+                        {{ form.description }}
+                        {% if form.description.errors %}
+                            <div style="color: #dc2626; font-size: 0.8rem; margin-top: 0.25rem;">
+                                {{ form.description.errors.0 }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Classification Section -->
+                <div>
+                    <h4 style="margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid #eaddd7;">Classification</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                        <div class="filter-group">
+                            <label for="{{ form.asset_type.id_for_label }}">Asset Type *</label>
+                            {{ form.asset_type }}
+                            {% if form.asset_type.errors %}
+                                <div style="color: #dc2626; font-size: 0.8rem; margin-top: 0.25rem;">
+                                    {{ form.asset_type.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="filter-group">
+                            <label for="{{ form.manufacturer.id_for_label }}">Manufacturer *</label>
+                            {{ form.manufacturer }}
+                            {% if form.manufacturer.errors %}
+                                <div style="color: #dc2626; font-size: 0.8rem; margin-top: 0.25rem;">
+                                    {{ form.manufacturer.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="filter-group">
+                            <label for="{{ form.model_number.id_for_label }}">Model Number</label>
+                            {{ form.model_number }}
+                            {% if form.model_number.errors %}
+                                <div style="color: #dc2626; font-size: 0.8rem; margin-top: 0.25rem;">
+                                    {{ form.model_number.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="filter-group">
+                            <label for="{{ form.serial_number.id_for_label }}">Serial Number</label>
+                            {{ form.serial_number }}
+                            {% if form.serial_number.errors %}
+                                <div style="color: #dc2626; font-size: 0.8rem; margin-top: 0.25rem;">
+                                    {{ form.serial_number.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Location & Assignment Section -->
+                <div>
+                    <h4 style="margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid #eaddd7;">Location & Assignment</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                        <div class="filter-group">
+                            <label for="{{ form.location.id_for_label }}">Location *</label>
+                            {{ form.location }}
+                            {% if form.location.errors %}
+                                <div style="color: #dc2626; font-size: 0.8rem; margin-top: 0.25rem;">
+                                    {{ form.location.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="filter-group">
+                            <label for="{{ form.assigned_to.id_for_label }}">Assigned To</label>
+                            {{ form.assigned_to }}
+                            {% if form.assigned_to.errors %}
+                                <div style="color: #dc2626; font-size: 0.8rem; margin-top: 0.25rem;">
+                                    {{ form.assigned_to.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="filter-group">
+                            <label for="{{ form.status.id_for_label }}">Status</label>
+                            {{ form.status }}
+                            {% if form.status.errors %}
+                                <div style="color: #dc2626; font-size: 0.8rem; margin-top: 0.25rem;">
+                                    {{ form.status.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="filter-group">
+                            <label for="{{ form.priority.id_for_label }}">Priority</label>
+                            {{ form.priority }}
+                            {% if form.priority.errors %}
+                                <div style="color: #dc2626; font-size: 0.8rem; margin-top: 0.25rem;">
+                                    {{ form.priority.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dates & Warranty Section -->
+                <div>
+                    <h4 style="margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid #eaddd7;">Dates & Warranty</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                        <div class="filter-group">
+                            <label for="{{ form.purchase_date.id_for_label }}">Purchase Date</label>
+                            {{ form.purchase_date }}
+                            {% if form.purchase_date.errors %}
+                                <div style="color: #dc2626; font-size: 0.8rem; margin-top: 0.25rem;">
+                                    {{ form.purchase_date.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="filter-group">
+                            <label for="{{ form.installation_date.id_for_label }}">Installation Date</label>
+                            {{ form.installation_date }}
+                            {% if form.installation_date.errors %}
+                                <div style="color: #dc2626; font-size: 0.8rem; margin-top: 0.25rem;">
+                                    {{ form.installation_date.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="filter-group">
+                            <label for="{{ form.warranty_expiry.id_for_label }}">Warranty Expiry</label>
+                            {{ form.warranty_expiry }}
+                            {% if form.warranty_expiry.errors %}
+                                <div style="color: #dc2626; font-size: 0.8rem; margin-top: 0.25rem;">
+                                    {{ form.warranty_expiry.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Maintenance Section -->
+                <div>
+                    <h4 style="margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid #eaddd7;">Maintenance</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                        <div class="filter-group">
+                            <label for="{{ form.last_maintenance.id_for_label }}">Last Maintenance</label>
+                            {{ form.last_maintenance }}
+                            {% if form.last_maintenance.errors %}
+                                <div style="color: #dc2626; font-size: 0.8rem; margin-top: 0.25rem;">
+                                    {{ form.last_maintenance.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="filter-group">
+                            <label for="{{ form.next_maintenance.id_for_label }}">Next Maintenance</label>
+                            {{ form.next_maintenance }}
+                            {% if form.next_maintenance.errors %}
+                                <div style="color: #dc2626; font-size: 0.8rem; margin-top: 0.25rem;">
+                                    {{ form.next_maintenance.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notes Section -->
+                <div>
+                    <h4 style="margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid #eaddd7;">Additional Information</h4>
+                    <div class="filter-group">
+                        <label for="{{ form.notes.id_for_label }}">Notes</label>
+                        {{ form.notes }}
+                        {% if form.notes.errors %}
+                            <div style="color: #dc2626; font-size: 0.8rem; margin-top: 0.25rem;">
+                                {{ form.notes.errors.0 }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Form Errors -->
+                {% if form.non_field_errors %}
+                    <div style="padding: 1rem; background-color: #fee2e2; border-radius: 0.375rem; border-left: 4px solid #dc2626;">
+                        {% for error in form.non_field_errors %}
+                            <p style="color: #dc2626; margin: 0; font-family: 'Lato', sans-serif; font-weight: 700;">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <!-- Form Actions -->
+                <div style="display: flex; gap: 1rem; justify-content: flex-end; padding-top: 1rem; border-top: 1px solid #eaddd7;">
+                    <a href="{% if asset %}{% url 'asset_detail' asset.asset_tag %}{% else %}{% url 'asset_list' %}{% endif %}" class="btn btn-secondary">Cancel</a>
+                    <button type="submit" class="btn btn-primary">
+                        {% if asset %}Update Asset{% else %}Create Asset{% endif %}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<script>
+// Add some basic form enhancements
+document.addEventListener('DOMContentLoaded', function() {
+    // Auto-uppercase asset tag
+    const assetTagField = document.getElementById('{{ form.asset_tag.id_for_label }}');
+    if (assetTagField) {
+        assetTagField.addEventListener('input', function() {
+            this.value = this.value.toUpperCase();
+        });
+    }
+    
+    // Add form validation feedback
+    const form = document.querySelector('form');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            const requiredFields = form.querySelectorAll('input[required], select[required]');
+            let hasErrors = false;
+            
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    field.style.borderColor = '#dc2626';
+                    hasErrors = true;
+                } else {
+                    field.style.borderColor = '#ccc';
+                }
+            });
+            
+            if (hasErrors) {
+                e.preventDefault();
+                alert('Please fill in all required fields.');
+            }
+        });
+    }
+});
+</script>
+{% endblock %}

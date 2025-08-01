@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Engine - Integration Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: #f8f7f4;
+            color: #4a4a4a;
+        }
+        .content-pane {
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .doc-content {
+            font-family: 'Lora', serif;
+        }
+        .doc-content h2 {
+            font-family: 'Lato', sans-serif;
+            font-weight: 900;
+            font-size: 1.75rem;
+            letter-spacing: -0.025em;
+            color: #1f2937;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 0.5rem;
+        }
+        .doc-content h3 {
+            font-family: 'Lato', sans-serif;
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #3a5a40;
+        }
+        .doc-content p {
+            font-size: 1rem;
+            line-height: 1.75;
+            margin-bottom: 1rem;
+        }
+        .doc-content strong {
+            font-weight: 700;
+            color: #1f2937;
+        }
+        .doc-content code {
+            background-color: #eaddd7;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9em;
+        }
+        .doc-content pre {
+            background-color: #1f2937;
+            color: #f3f4f6;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            font-size: 0.875rem;
+        }
+        .doc-content pre code {
+            background-color: transparent;
+            padding: 0;
+            color: inherit;
+        }
+        .view-tab {
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            font-weight: 700;
+            font-size: 1rem;
+            color: #6b7280;
+        }
+        .view-tab.active {
+            border-color: #3a5a40;
+            color: #3a5a40;
+        }
+        .integration-card {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border: 1px solid #0ea5e9;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+        .success-card {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border: 1px solid #22c55e;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-6 md:p-8">
+
+    <div class="max-w-5xl mx-auto">
+        <header class="flex flex-col sm:flex-row justify-between items-center mb-6 pb-4 border-b">
+            <div>
+                <h1 class="text-3xl font-black text-[#3a3a3a]" style="font-family: 'Lato', sans-serif;">Knowledge Engine</h1>
+                <p class="text-md text-gray-500">User-Asset Integration Guide</p>
+            </div>
+            <div class="flex items-center space-x-4 mt-3 sm:mt-0">
+                <div class="text-right">
+                    <p class="font-bold text-sm">Integration Team</p>
+                    <p class="text-xs text-gray-500">Phase 5 Complete</p>
+                </div>
+                <div class="w-10 h-10 bg-[#eaddd7] rounded-full flex items-center justify-center font-bold text-[#3a3a3a] text-sm flex-shrink-0">✓</div>
+            </div>
+        </header>
+
+        <main class="content-pane">
+            <div class="border-b border-gray-200">
+                <nav class="-mb-px flex space-x-4">
+                    <a class="view-tab active" data-target="overview">Integration Overview</a>
+                    <a class="view-tab" data-target="features">New Features</a>
+                    <a class="view-tab" data-target="testing">Testing Guide</a>
+                    <a class="view-tab" data-target="future">Future Roadmap</a>
+                </nav>
+            </div>
+            
+            <div id="overview" class="tab-content p-6 sm:p-8">
+                <div class="doc-content">
+                    <h2>Phase 5: Integration Complete! 🎉</h2>
+                    <p>The Knowledge Engine now features seamless integration between user management and asset management systems. This creates a unified experience where employees and infrastructure are connected through intelligent workflows.</p>
+                    
+                    <div class="success-card">
+                        <h3 style="color: #166534; margin-top: 0;">✅ Integration Achievements</h3>
+                        <ul class="list-disc list-inside space-y-2">
+                            <li><strong>Enhanced User Profiles</strong> – Users can now see their assigned assets directly on their profile</li>
+                            <li><strong>Asset Assignment Workflows</strong> – Streamlined process for assigning assets to team members</li>
+                            <li><strong>Cross-App Navigation</strong> – Seamless navigation between user and asset information</li>
+                            <li><strong>Activity Tracking</strong> – User profiles show recent asset-related activities</li>
+                            <li><strong>Management Commands</strong> – Automated tools for data management and testing</li>
+                            <li><strong>Incident Preparation</strong> – Foundation laid for future incident management integration</li>
+                        </ul>
+                    </div>
+
+                    <h3>System Architecture</h3>
+                    <p>The integrated system now provides a complete view of datacenter operations:</p>
+                    <pre><code>Knowledge Engine v1.1.0 - Integrated Architecture
+
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   User Profile  │◄──►│ Asset Assignment│◄──►│ Asset Management│
+│                 │    │                 │    │                 │
+│ • Personal Info │    │ • Assignment    │    │ • Asset Details │
+│ • Assigned      │    │   Tracking      │    │ • Maintenance   │
+│   Assets        │    │ • Change Logs   │    │ • Specifications│
+│ • Activity Feed │    │ • Notifications │    │ • Status        │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+         │                        │                        │
+         └────────────────────────┼────────────────────────┘
+                                  │
+                    ┌─────────────────┐
+                    │ Future: Incident│
+                    │   Management    │
+                    │                 │
+                    │ • Asset-linked  │
+                    │   Incidents     │
+                    │ • Impact        │
+                    │   Analysis      │
+                    └─────────────────┘</code></pre>
+
+                    <h3>Key Integration Points</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-6">
+                        <div class="integration-card">
+                            <h4 class="font-bold text-blue-800 mb-2">User → Asset Flow</h4>
+                            <ul class="text-sm space-y-1 text-blue-700">
+                                <li>• View assigned assets from user profile</li>
+                                <li>• See maintenance responsibilities</li>
+                                <li>• Track asset-related activities</li>
+                                <li>• Quick navigation to asset details</li>
+                            </ul>
+                        </div>
+                        <div class="integration-card">
+                            <h4 class="font-bold text-blue-800 mb-2">Asset → User Flow</h4>
+                            <ul class="text-sm space-y-1 text-blue-700">
+                                <li>• Assign assets to specific users</li>
+                                <li>• View all assets for a user</li>
+                                <li>• Track assignment changes</li>
+                                <li>• Maintenance responsibility tracking</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>Data Relationships</h3>
+                    <p>The integration creates these key relationships:</p>
+                    <ul class="list-disc list-inside space-y-1 mb-6">
+                        <li><strong>CustomUser.assigned_assets</strong> – Reverse relationship to see all user's assets</li>
+                        <li><strong>Asset.assigned_to</strong> – Direct link to responsible user</li>
+                        <li><strong>AssetLog.user</strong> – Track who made changes to assets</li>
+                        <li><strong>MaintenanceRecord.scheduled_by/performed_by</strong> – User accountability in maintenance</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div id="features" class="tab-content hidden p-6 sm:p-8">
+                <div class="doc-content">
+                    <h2>New Features & Capabilities</h2>
+                    <p>Phase 5 integration introduces powerful new features that enhance the user experience and operational efficiency.</p>
+                    
+                    <h3>Enhanced User Profile</h3>
+                    <div class="integration-card">
+                        <h4 class="font-bold text-blue-800 mb-2">🏠 Profile Dashboard Enhancement</h4>
+                        <p class="text-blue-700 mb-3">User profiles now display comprehensive asset information:</p>
+                        <ul class="text-sm space-y-1 text-blue-700">
+                            <li>• <strong>Assigned Assets Section</strong> – Visual cards showing all assigned assets</li>
+                            <li>• <strong>Status Indicators</strong> – Color-coded status badges for quick assessment</li>
+                            <li>• <strong>Maintenance Alerts</strong> – Immediate visibility of maintenance due dates</li>
+                            <li>• <strong>Quick Actions</strong> – Direct links to asset details and management</li>
+                            <li>• <strong>Activity Feed</strong> – Recent asset-related activities by the user</li>
+                        </ul>
+                    </div>
+
+                    <h3>Asset Assignment Management</h3>
+                    <div class="integration-card">
+                        <h4 class="font-bold text-blue-800 mb-2">👥 Assignment Workflows</h4>
+                        <p class="text-blue-700 mb-3">Streamlined asset assignment process:</p>
+                        <ul class="text-sm space-y-1 text-blue-700">
+                            <li>• <strong>Assignment Interface</strong> – Dedicated page for asset assignment</li>
+                            <li>• <strong>User Selection</strong> – Dropdown with user details (name, role, department)</li>
+                            <li>• <strong>Change Tracking</strong> – Automatic logging of assignment changes</li>
+                            <li>• <strong>Confirmation Dialogs</strong> – Prevent accidental reassignments</li>
+                            <li>• <strong>Audit Trail</strong> – Complete history of who assigned what to whom</li>
+                        </ul>
+                    </div>
+
+                    <h3>Cross-Application Navigation</h3>
+                    <div class="integration-card">
+                        <h4 class="font-bold text-blue-800 mb-2">🔗 Seamless Navigation</h4>
+                        <p class="text-blue-700 mb-3">Contextual navigation between users and assets:</p>
+                        <ul class="text-sm space-y-1 text-blue-700">
+                            <li>• <strong>User Asset View</strong> – Dedicated page showing all assets for a user</li>
+                            <li>• <strong>Asset Detail Links</strong> – Quick access to responsible person's profile</li>
+                            <li>• <strong>Contextual Actions</strong> – Relevant actions based on current context</li>
+                            <li>• <strong>Breadcrumb Navigation</strong> – Clear path between related information</li>
+                        </ul>
+                    </div>
+
+                    <h3>Management & Automation</h3>
+                    <div class="integration-card">
+                        <h4 class="font-bold text-blue-800 mb-2">⚙️ Administrative Tools</h4>
+                        <p class="text-blue-700 mb-3">New management commands and utilities:</p>
+                        <ul class="text-sm space-y-1 text-blue-700">
+                            <li>• <strong>assign_sample_assets</strong> – Automatically assign assets based on department rules</li>
+                            <li>• <strong>Asset Utilities</strong> – Helper functions for health monitoring and reporting</li>
+                            <li>• <strong>Integration Helpers</strong> – Functions prepared for incident management</li>
+                            <li>• <strong>Data Validation</strong> – Ensure data consistency across applications</li>
+                        </ul>
+                    </div>
+
+                    <h3>Visual Enhancements</h3>
+                    <p>All new features maintain the beautiful Knowledge Engine design system:</p>
+                    <ul class="list-disc list-inside space-y-2 mb-6">
+                        <li><strong>Consistent Styling</strong> – Same color scheme, typography, and component design</li>
+                        <li><strong>Status Indicators</strong> – Color-coded badges for immediate status recognition</li>
+                        <li><strong>Responsive Design</strong> – All new interfaces work perfectly on mobile and desktop</li>
+                        <li><strong>Interactive Elements</strong> – Hover effects, transitions, and user feedback</li>
+                        <li><strong>Professional Layout</strong> – Clean, organized information presentation</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="testing" class="tab-content hidden p-6 sm:p-8">
+                <div class="doc-content">
+                    <h2>Testing Your Integration</h2>
+                    <p>Follow this comprehensive testing guide to validate all integration features work correctly.</p>
+
+                    <h3>Pre-Testing Setup</h3>
+                    <div class="success-card">
+                        <h4 style="color: #166534; margin-top: 0;">✅ Ensure Your System is Ready</h4>
+                        <ol class="list-decimal list-inside space-y-2 text-green-700">
+                            <li>Server is running: <code>python manage.py runserver</code></li>
+                            <li>Sample data is populated: <code>python manage.py populate_assets</code></li>
+                            <li>Assets are assigned: <code>python manage.py assign_sample_assets</code></li>
+                            <li>Admin user exists with credentials: admin / admin123</li>
+                        </ol>
+                    </div>
+
+                    <h3>Test Scenarios</h3>
+
+                    <h4 class="text-lg font-bold text-[#3a5a40] mt-6 mb-3">1. User Profile Integration Test</h4>
+                    <div class="bg-gray-50 p-4 rounded-lg mb-4">
+                        <p class="font-bold mb-2">Steps:</p>
+                        <ol class="list-decimal list-inside space-y-1 text-sm">
+                            <li>Login at <code>http://127.0.0.1:8000/users/login/</code></li>
+                            <li>Navigate to Profile page</li>
+                            <li>Verify "Assigned Assets" section appears</li>
+                            <li>Check that assets show status badges and maintenance indicators</li>
+                            <li>Click "View All My Assets" button</li>
+                            <li>Verify "Recent Asset Activity" section shows user's activities</li>
+                        </ol>
+                        <p class="font-bold mt-3 mb-1">Expected Results:</p>
+                        <ul class="list-disc list-inside space-y-1 text-sm">
+                            <li>Assets display with color-coded status borders</li>
+                            <li>Maintenance due indicators appear for overdue assets</li>
+                            <li>Links to asset details work correctly</li>
+                            <li>Activity feed shows recent asset changes</li>
+                        </ul>
+                    </div>
+
+                    <h4 class="text-lg font-bold text-[#3a5a40] mt-6 mb-3">2. Asset Assignment Test</h4>
+                    <div class="bg-gray-50 p-4 rounded-lg mb-4">
+                        <p class="font-bold mb-2">Steps:</p>
+                        <ol class="list-decimal list-inside space-y-1 text-sm">
+                            <li>Go to <code>http://127.0.0.1:8000/assets/</code></li>
+                            <li>Click on any asset to view details</li>
+                            <li>Click "Assign Asset" button</li>
+                            <li>Change assignment to a different user</li>
+                            <li>Verify confirmation dialog appears</li>
+                            <li>Complete assignment and check asset detail page</li>
+                            <li>Verify assignment change appears in asset logs</li>
+                        </ol>
+                        <p class="font-bold mt-3 mb-1">Expected Results:</p>
+                        <ul class="list-disc list-inside space-y-1 text-sm">
+                            <li>Assignment interface shows current and available users</li>
+                            <li>Success message appears after assignment</li>
+                            <li>Asset detail page reflects new assignment</li>
+                            <li>Log entry created for assignment change</li>
+                        </ul>
+                    </div>
+
+                    <h4 class="text-lg font-bold text-[#3a5a40] mt-6 mb-3">3. Cross-Navigation Test</h4>
+                    <div class="bg-gray-50 p-4 rounded-lg mb-4">
+                        <p class="font-bold mb-2">Steps:</p>
+                        <ol class="list-decimal list-inside space-y-1 text-sm">
+                            <li>From asset detail page, click on assigned user's name</li>
+                            <li>Verify it navigates to user's asset list</li>
+                            <li>Check that user information displays correctly</li>
+                            <li>Verify all user's assets are shown</li>
+                            <li>Click "Back to Profile" to return to user profile</li>
+                            <li>Test navigation between Assets and Profile tabs in header</li>
+                        </ol>
+                        <p class="font-bold mt-3 mb-1">Expected Results:</p>
+                        <ul class="list-disc list-inside space-y-1 text-sm">
+                            <li>Smooth navigation between user and asset views</li>
+                            <li>User asset page shows comprehensive information</li>
+                            <li>Navigation tabs highlight current section</li>
+                            <li>All links work without errors</li>
+                        </ul>
+                    </div>
+
+                    <h3>Admin Interface Testing</h3>
+                    <div class="integration-card">
+                        <h4 class="font-bold text-blue-800 mb-2">🔧 Admin Panel Validation</h4>
+                        <ol class="list-decimal list-inside space-y-1 text-blue-700">
+                            <li>Login to admin at <code>http://127.0.0.1:8000/admin/</code></li>
+                            <li>Navigate to Assets section</li>
+                            <li>Verify color-coded status badges appear</li>
+                            <li>Test bulk actions for status changes</li>
+                            <li>Check asset logs show user attribution</li>
+                            <li>Verify maintenance records link to users correctly</li>
+                        </ol>
+                    </div>
+
+                    <h3>Performance Testing</h3>
+                    <p>Verify the integration doesn't impact performance:</p>
+                    <ul class="list-disc list-inside space-y-1 mb-6">
+                        <li><strong>Page Load Times</strong> – Profile and asset pages should load quickly</li>
+                        <li><strong>Database Queries</strong> – Check for N+1 query issues in asset lists</li>
+                        <li><strong>Memory Usage</strong> – Monitor server memory during navigation</li>
+                        <li><strong>Responsive Design</strong> – Test on mobile devices and tablets</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="future" class="tab-content hidden p-6 sm:p-8">
+                <div class="doc-content">
+                    <h2>Future Roadmap & Incident Management</h2>
+                    <p>Phase 5 integration creates the foundation for advanced features and incident management capabilities.</p>
+
+                    <h3>Incident Management Integration (Phase 6)</h3>
+                    <div class="integration-card">
+                        <h4 class="font-bold text-blue-800 mb-2">🚨 Planned Incident Features</h4>
+                        <p class="text-blue-700 mb-3">The foundation is now ready for incident management:</p>
+                        <ul class="text-sm space-y-1 text-blue-700">
+                            <li>• <strong>Asset-Linked Incidents</strong> – Incidents automatically linked to affected assets</li>
+                            <li>• <strong>Impact Analysis</strong> – Identify related assets and users affected by incidents</li>
+                            <li>• <strong>Automatic Assignment</strong> – Incidents assigned to asset responsible users</li>
+                            <li>• <strong>Escalation Workflows</strong> – Based on asset priority and user availability</li>
+                            <li>• <strong>Resolution Tracking</strong> – Link incident resolution to asset status changes</li>
+                        </ul>
+                    </div>
+
+                    <h3>Prepared Integration Points</h3>
+                    <p>The following utilities are ready for incident management:</p>
+                    <pre><code># Asset utilities ready for incident integration
+get_asset_health_summary()     # System-wide health overview
+get_user_asset_summary(user)   # User-specific asset status
+get_asset_incident_context()   # Asset context for incidents
+find_related_assets()          # Impact analysis support
+log_asset_event()             # Consistent event logging</code></pre>
+
+                    <h3>ITIL Process Integration</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-6">
+                        <div class="integration-card">
+                            <h4 class="font-bold text-blue-800 mb-2">Incident Management</h4>
+                            <ul class="text-sm space-y-1 text-blue-700">
+                                <li>• Asset-incident relationships</li>
+                                <li>• Priority based on asset criticality</li>
+                                <li>• Automatic user notification</li>
+                                <li>• Impact assessment tools</li>
+                            </ul>
+                        </div>
+                        <div class="integration-card">
+                            <h4 class="font-bold text-blue-800 mb-2">Change Management</h4>
+                            <ul class="text-sm space-y-1 text-blue-700">
+                                <li>• Asset configuration changes</li>
+                                <li>• Change approval workflows</li>
+                                <li>• Rollback procedures</li>
+                                <li>• Change impact analysis</li>
+                            </ul>
+                        </div>
+                        <div class="integration-card">
+                            <h4 class="font-bold text-blue-800 mb-2">Problem Management</h4>
+                            <ul class="text-sm space-y-1 text-blue-700">
+                                <li>• Recurring asset issues</li>
+                                <li>• Root cause analysis</li>
+                                <li>• Known error database</li>
+                                <li>• Preventive measures</li>
+                            </ul>
+                        </div>
+                        <div class="integration-card">
+                            <h4 class="font-bold text-blue-800 mb-2">Service Level Management</h4>
+                            <ul class="text-sm space-y-1 text-blue-700">
+                                <li>• Asset availability tracking</li>
+                                <li>• Performance metrics</li>
+                                <li>• SLA compliance reporting</li>
+                                <li>• Service impact analysis</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>Advanced Features Roadmap</h3>
+                    <div class="success-card">
+                        <h4 style="color: #166534; margin-top: 0;">🚀 Next Development Phases</h4>
+                        <ul class="list-disc list-inside space-y-2 text-green-700">
+                            <li><strong>Phase 6: Incident Management</strong> – Complete ITIL incident workflow</li>
+                            <li><strong>Phase 7: Change Management</strong> – Asset configuration change control</li>
+                            <li><strong>Phase 8: Problem Management</strong> – Root cause analysis and prevention</li>
+                            <li><strong>Phase 9: Service Catalog</strong> – Service definitions and dependencies</li>
+                            <li><strong>Phase 10: Analytics & Reporting</strong> – Advanced dashboards and insights</li>
+                        </ul>
+                    </div>
+
+                    <h3>Technical Enhancements</h3>
+                    <p>Future technical improvements planned:</p>
+                    <ul class="list-disc list-inside space-y-2 mb-6">
+                        <li><strong>Real-time Updates</strong> – WebSocket integration for live status updates</li>
+                        <li><strong>Mobile App</strong> – Native mobile application for field technicians</li>
+                        <li><strong>API Expansion</strong> – RESTful APIs for third-party integrations</li>
+                        <li><strong>Advanced Analytics</strong> – Machine learning for predictive maintenance</li>
+                        <li><strong>IoT Integration</strong> – Direct sensor data integration for real-time monitoring</li>
+                        <li><strong>SSO Integration</strong> – Enterprise authentication (Azure AD, LDAP)</li>
+                    </ul>
+
+                    <h3>Data Model Extensions</h3>
+                    <p>Planned model enhancements for future phases:</p>
+                    <pre><code># Future model additions
+class Incident(models.Model):
+    asset = models.ForeignKey(Asset, related_name='incidents')
+    assigned_to = models.ForeignKey(CustomUser)
+    priority = models.CharField(choices=PRIORITY_CHOICES)
+    # ... incident-specific fields
+
+class ServiceDefinition(models.Model):
+    assets = models.ManyToManyField(Asset)
+    responsible_users = models.ManyToManyField(CustomUser)
+    # ... service-specific fields
+
+class AssetDependency(models.Model):
+    parent_asset = models.ForeignKey(Asset, related_name='dependencies')
+    child_asset = models.ForeignKey(Asset, related_name='dependents')
+    # ... dependency-specific fields</code></pre>
+                </div>
+            </div>
+        </main>
+    </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const tabs = document.querySelectorAll('.view-tab');
+        const panes = document.querySelectorAll('.tab-content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                const targetId = this.dataset.target;
+
+                tabs.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+
+                panes.forEach(pane => {
+                    if (pane.id === targetId) {
+                        pane.classList.remove('hidden');
+                    } else {
+                        pane.classList.add('hidden');
+                    }
+                });
+            });
+        });
+    });
+</script>
+</body>
+</html>

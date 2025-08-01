@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Asset List - Knowledge Engine{% endblock %}
+
+{% block content %}
+<div class="asset-list-compact">
+
+    <!-- Top Row: Filters and Actions -->
+    <div class="list-top-row">
+        <!-- Compact Filters -->
+        <div class="filters-compact">
+            <form method="get" class="filters-form-compact">
+                <div class="filter-group-compact">
+                    <input type="text" name="search" value="{{ search_query }}" placeholder="Search assets..." class="search-input-compact">
+                </div>
+                <div class="filter-group-compact">
+                    <select name="status" class="filter-select-compact">
+                        <option value="">All Status</option>
+                        <option value="active" {% if current_status == 'active' %}selected{% endif %}>Active</option>
+                        <option value="maintenance" {% if current_status == 'maintenance' %}selected{% endif %}>Maintenance</option>
+                        <option value="faulty" {% if current_status == 'faulty' %}selected{% endif %}>Faulty</option>
+                        <option value="standby" {% if current_status == 'standby' %}selected{% endif %}>Standby</option>
+                    </select>
+                </div>
+                <div class="filter-group-compact">
+                    <select name="type" class="filter-select-compact">
+                        <option value="">All Types</option>
+                        {% for asset_type in asset_types %}
+                            <option value="{{ asset_type.name }}" {% if current_type == asset_type.name %}selected{% endif %}>{{ asset_type.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="filter-btn-compact">Filter</button>
+            </form>
+        </div>
+        
+        <!-- Actions and Count -->
+        <div class="list-actions-compact">
+            <div class="asset-count">{{ assets|length }} asset{{ assets|length|pluralize }}</div>
+            <a href="{% url 'asset_add' %}" class="action-btn primary">Add Asset</a>
+            <a href="{% url 'asset_dashboard' %}" class="action-btn secondary">Dashboard</a>
+        </div>
+    </div>
+
+    <!-- Compact Asset Grid -->
+    {% if assets %}
+        <div class="asset-grid-compact">
+            {% for asset in assets %}
+                <div class="asset-card-compact">
+                    <div class="asset-card-header-compact">
+                        <div class="asset-status-dot status-{{ asset.status }}"></div>
+                        <div class="asset-header-content">
+                            <a href="{% url 'asset_detail' asset.asset_tag %}" class="asset-tag-link">{{ asset.asset_tag }}</a>
+                            <p class="asset-name-compact">{{ asset.name }}</p>
+                        </div>
+                        <div class="asset-badges">
+                            <span class="status-badge {{ asset.status }}">{{ asset.get_status_display }}</span>
+                            {% if asset.is_maintenance_due %}
+                                <span class="maintenance-due-badge">Due</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="asset-card-body-compact">
+                        <div class="asset-meta-compact">
+                            <div class="meta-row">
+                                <span class="meta-label">Type:</span>
+                                <span class="meta-value">{{ asset.asset_type.name }}</span>
+                            </div>
+                            <div class="meta-row">
+                                <span class="meta-label">Location:</span>
+                                <span class="meta-value">{{ asset.location.name }}</span>
+                            </div>
+                            <div class="meta-row">
+                                <span class="meta-label">Assigned:</span>
+                                <span class="meta-value">
+                                    {% if asset.assigned_to %}
+                                        {{ asset.assigned_to.full_name }}
+                                    {% else %}
+                                        <span class="unassigned">Unassigned</span>
+                                    {% endif %}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="asset-card-actions-compact">
+                        <a href="{% url 'asset_detail' asset.asset_tag %}" class="action-link primary">View</a>
+                        <a href="{% url 'asset_edit' asset.asset_tag %}" class="action-link secondary">Edit</a>
+                        {% if asset.assigned_to %}
+                            <a href="{% url 'user_assets' asset.assigned_to.id %}" class="action-link secondary">User</a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state-large">
+            <div class="empty-icon">📦</div>
+            <h3>No Assets Found</h3>
+            <p>
+                {% if search_query or current_status or current_type or current_location %}
+                    No assets match your current filters. Try adjusting your search criteria.
+                {% else %}
+                    No assets have been added to the system yet.
+                {% endif %}
+            </p>
+            <div class="empty-actions">
+                {% if search_query or current_status or current_type or current_location %}
+                    <a href="{% url 'asset_list' %}" class="action-btn secondary">Clear Filters</a>
+                {% endif %}
+                <a href="{% url 'asset_add' %}" class="action-btn primary">Add First Asset</a>
+            </div>
+        </div>
+    {% endif %}
+
+</div>
+{% endblock %}

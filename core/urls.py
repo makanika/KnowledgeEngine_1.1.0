@@ -14,6 +14,10 @@ urlpatterns = [
     # It tells Django that any URL starting with 'users/' should be
     # handled by the urls.py file inside our 'Users' app.
     path('users/', include('users.urls')),
+    
+    # Assets application URLs
+    # Any URL starting with 'assets/' will be handled by the assets app
+    path('assets/', include('assets.urls')),
 
     # For user convenience, this line redirects the root URL of the site ('/')
     # directly to our login page ('/users/login/'). So, when someone visits

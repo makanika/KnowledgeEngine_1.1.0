@@ -24,10 +24,32 @@
             </div>
             
             {% if user.is_authenticated %}
+            <div class="nav-links">
+                <a href="{% url 'profile' %}" class="nav-link {% if request.resolver_match.url_name == 'profile' %}active{% endif %}">Profile</a>
+                <a href="{% url 'asset_dashboard' %}" class="nav-link {% if 'asset' in request.resolver_match.url_name %}active{% endif %}">Assets</a>
+            </div>
             <div class="user-info">
                 <div class="user-details">
-                    <p class="user-name">Welcome, {{ user.full_name }}</p>
-                    <p class="user-shift">Shift: {{ user.shift }}</p>
+                    <p class="user-name">{{ user.full_name }}</p>
+                    <div class="user-meta">
+                        <span class="user-designation">{{ user.designation }}</span>
+                        <span class="user-separator">•</span>
+                        <span class="user-department">{{ user.department }}</span>
+                        <span class="user-separator">•</span>
+                        <span class="user-shift">{{ user.shift }}</span>
+                        <span class="user-separator">•</span>
+                        {% if user.on_duty %}
+                            <span class="duty-status-nav on-duty">
+                                <span class="duty-dot"></span>
+                                On Duty
+                            </span>
+                        {% else %}
+                            <span class="duty-status-nav off-duty">
+                                <span class="duty-dot"></span>
+                                Off Duty
+                            </span>
+                        {% endif %}
+                    </div>
                 </div>
                 <a href="{% url 'logout' %}" class="logout-button">Logout</a>
             </div>
